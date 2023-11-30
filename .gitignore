@@ -207,5 +207,4 @@ gradle-app.setting
 /src/main/generated
 
 ###
-.env
-**/static/models/
+/src/main/resources/
