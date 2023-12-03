@@ -1,0 +1,5 @@
+spring:
+  config.activate.on-profile: common
+wifi_api:
+  url: ${WIFI_API_URL}
+  key: ${WIFI_API_KEY}

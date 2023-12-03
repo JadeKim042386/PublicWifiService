@@ -3,13 +3,14 @@
 ## Development Environment
 
 - IDE: Intellij IDEA Ultimate 2023.2.4
-- Application Server: Tomcat 8.5.96
-- Build System: Gradle 8.2
-- JDK: 1.8
+- Build System: Gradle 8.5
+- JDK: 17
 
 ## Tech Stack
 
-- MariaDB
+- Spring Boot 2.7
+- JPA
+- MariaDB, H2
 - JSP
 - [Open API](https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do)
 
