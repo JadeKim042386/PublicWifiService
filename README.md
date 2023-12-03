@@ -3,7 +3,7 @@
 ## Development Environment
 
 - IDE: Intellij IDEA Ultimate 2023.2.4
-- Build System: Gradle 8.2
+- Build System: Gradle 8.5
 - JDK: 17
 
 ## Tech Stack
