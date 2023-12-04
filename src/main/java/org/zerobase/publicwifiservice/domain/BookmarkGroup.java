@@ -16,7 +16,7 @@ import java.util.Set;
         name = "bookmark_group",
         indexes = {
                 @Index(columnList = "id"),
-                @Index(columnList = "group_name", unique = true)
+                @Index(columnList = "groupName", unique = true)
         }
 )
 @Entity
@@ -31,7 +31,7 @@ public class BookmarkGroup {
     @Column(nullable = false)
     private LocalDateTime createdAt;
     @Setter
-    @Column(nullable = false)
+    @Column
     private LocalDateTime modifiedAt;
 
     @ToString.Exclude
