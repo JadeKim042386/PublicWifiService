@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
         name = "bookmark",
         indexes = {
                 @Index(columnList = "id"),
-                @Index(columnList = "bookmark_name", unique = true)
+                @Index(columnList = "bookmarkName", unique = true)
         }
 )
 @Entity
@@ -30,6 +30,9 @@ public class Bookmark {
     @Setter
     @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Setter
+    @Column
+    private LocalDateTime modifiedAt;
 
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -45,6 +48,11 @@ public class Bookmark {
     @PrePersist
     void registeredAt() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.modifiedAt = LocalDateTime.now();
     }
 
     public Bookmark() {

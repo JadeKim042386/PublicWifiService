@@ -16,7 +16,7 @@ import java.util.Objects;
         name = "public_wifi",
         indexes = {
                 @Index(columnList = "id"),
-                @Index(columnList = "wifi_name", unique = true)
+                @Index(columnList = "wifiName", unique = true)
         }
 )
 @Entity
@@ -40,7 +40,7 @@ public class PublicWifi {
     private LocalDateTime updatedAt;
 
     @ToString.Exclude
-    @OneToOne(mappedBy = "publicWifi")
+    @OneToOne(mappedBy = "publicWifi", cascade = CascadeType.ALL)
     private Bookmark bookmark;
 
     @PrePersist
