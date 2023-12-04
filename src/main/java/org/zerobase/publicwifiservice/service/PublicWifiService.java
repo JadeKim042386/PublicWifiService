@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerobase.publicwifiservice.api.WifiApi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
+import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.util.List;
@@ -19,12 +20,16 @@ public class PublicWifiService {
     private final PublicWifiRepository publicWifiRepository;
 
     public List<PublicWifiDto> getPublicWifiAll() {
-        return List.of();
+        List<WifiApiResponse> wifis = wifiApi.getWifis(0, 0, 0);
+
+        return wifis.stream().map(WifiApiResponse::toPublicWifiDto).toList();
     }
 
     @Transactional
-    public void savePublicWifi(List<PublicWifiDto> publicWifiDtos) {
-        return;
+    public void savePublicWifis(List<PublicWifiDto> publicWifiDtos) {
+        publicWifiRepository.saveAll(
+          publicWifiDtos.stream().map(PublicWifiDto::toEntity).toList()
+        );
     }
 
     public List<PublicWifiDto> getNearestWifis(double latitude, double longitude) {

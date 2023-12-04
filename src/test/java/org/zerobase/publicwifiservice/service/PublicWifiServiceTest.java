@@ -8,13 +8,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
+import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.api.WifiApi;
+import org.zerobase.publicwifiservice.domain.PublicWifi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -31,9 +34,11 @@ class PublicWifiServiceTest {
     @Test
     void getPublicWifiAll() {
         //given
+        given(wifiApi.getWifis(0, 0, 0)).willReturn(List.of(TestDto.getWifiApiResponse()));
         //when
         List<PublicWifiDto> publicWifis = publicWifiService.getPublicWifiAll();
         //then
+        then(wifiApi).should().getWifis(0, 0, 0);
     }
 
     @DisplayName("공공와이파이 정보 여러 개 저장")
@@ -41,9 +46,12 @@ class PublicWifiServiceTest {
     void savePublicWifis() {
         //given
         PublicWifiDto publicWifiDto = TestDto.getPublicWifiDto();
+        PublicWifi publicWifi = TestEntity.getPublicWifi();
+        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(publicWifi));
         //when
-        publicWifiService.savePublicWifi(List.of(publicWifiDto));
+        publicWifiService.savePublicWifis(List.of(publicWifiDto));
         //then
+        then(publicWifiRepository).should().saveAll(anyList());
     }
 
     @DisplayName("입력한 위도와 경도를 기준으로 가까운 공공와이파이 20개 조회")
