@@ -1,5 +1,7 @@
 package org.zerobase.publicwifiservice.dto.response;
 
+import org.zerobase.publicwifiservice.dto.PublicWifiDto;
+
 public record WifiApiResponse (
     String RN,
     String AP_NAME,
@@ -11,5 +13,16 @@ public record WifiApiResponse (
 ) {
     public static WifiApiResponse of(String RN, String AP_NAME, Double LAT, Double LON, String ADDR_STATE, String ADDR_CITY, String ADDR_DETAIL) {
         return new WifiApiResponse(RN, AP_NAME, LAT, LON, ADDR_STATE, ADDR_CITY, ADDR_DETAIL);
+    }
+
+    public PublicWifiDto toPublicWifiDto() {
+        return PublicWifiDto.of(
+                AP_NAME,
+                LAT,
+                LON,
+                ADDR_STATE,
+                ADDR_CITY,
+                ADDR_DETAIL
+        );
     }
 }
