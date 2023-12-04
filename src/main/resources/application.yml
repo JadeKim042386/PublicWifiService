@@ -12,6 +12,10 @@ logging.level:
   joo.project.my3d: debug
 spring:
   config.activate.on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
 
 ---
 
@@ -19,3 +23,9 @@ spring:
   config.activate.on-profile: test
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  sql.init.mode: always
