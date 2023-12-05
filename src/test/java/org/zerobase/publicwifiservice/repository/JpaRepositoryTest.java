@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.domain.Bookmark;
@@ -42,6 +44,19 @@ public class JpaRepositoryTest {
             assertThat(wifis.size()).isEqualTo(30);
         }
 
+        @DisplayName("거리를 기준으로 정렬하여 20개 조회")
+        @Test
+        void findAllByDistance() {
+            //given
+            double latitude = 27.9671;
+            double longitude = -82.4334;
+            //when
+            List<PublicWifi> wifis = publicWifiRepository.findByDistance(latitude, longitude);
+            //then
+            assertThat(wifis.get(0).getLocation().getLatitude()).isEqualTo(latitude);
+            assertThat(wifis.size()).isEqualTo(20);
+        }
+
         @DisplayName("findById")
         @Test
         void findById() {
@@ -62,6 +77,17 @@ public class JpaRepositoryTest {
             PublicWifi savedPublicWifi = publicWifiRepository.save(publicWifi);
             //then
             assertThat(savedPublicWifi.getId()).isEqualTo(31L);
+        }
+
+        @DisplayName("이미 존재하는 WIFI Name인지 확인")
+        @Test
+        void existWifiName() {
+            //given
+            String wifiName = "pede";
+            //when
+            boolean result = publicWifiRepository.existsByWifiName(wifiName);
+            //then
+            assertThat(result).isEqualTo(true);
         }
 
         @DisplayName("update")
