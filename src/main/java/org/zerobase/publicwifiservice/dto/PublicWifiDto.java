@@ -23,4 +23,15 @@ public record PublicWifiDto(
             Address.of(addrState, addrCity, addrDetail)
         );
     }
+
+    public static PublicWifiDto fromEntity(PublicWifi entity) {
+        return PublicWifiDto.of(
+                entity.getWifiName(),
+                entity.getLocation().getLatitude(),
+                entity.getLocation().getLongitude(),
+                entity.getAddress().getAddrState(),
+                entity.getAddress().getAddrCity(),
+                entity.getAddress().getAddrDetail()
+        );
+    }
 }

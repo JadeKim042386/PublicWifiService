@@ -16,7 +16,6 @@ import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -60,8 +59,10 @@ class PublicWifiServiceTest {
         //given
         double latitude = 37.2747488;
         double longitude = 127.018885;
+        given(publicWifiRepository.findByDistance(latitude, longitude)).willReturn(List.of());
         //when
-        publicWifiService.getNearestWifis(latitude, longitude);
+        List<PublicWifiDto> wifids = publicWifiService.getNearestWifis(latitude, longitude);
         //then
+        then(publicWifiRepository).should().findByDistance(latitude, longitude);
     }
 }

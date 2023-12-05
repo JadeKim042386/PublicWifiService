@@ -2,6 +2,7 @@ package org.zerobase.publicwifiservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerobase.publicwifiservice.api.WifiApi;
@@ -33,6 +34,7 @@ public class PublicWifiService {
     }
 
     public List<PublicWifiDto> getNearestWifis(double latitude, double longitude) {
-        return List.of();
+        return publicWifiRepository.findByDistance(latitude, longitude)
+                .stream().map(PublicWifiDto::fromEntity).toList();
     }
 }
