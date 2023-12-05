@@ -1,6 +1,8 @@
 package org.zerobase.publicwifiservice.dto.response;
 
-import org.zerobase.publicwifiservice.dto.PublicWifiDto;
+import org.zerobase.publicwifiservice.domain.PublicWifi;
+import org.zerobase.publicwifiservice.domain.embeded.Address;
+import org.zerobase.publicwifiservice.domain.embeded.Location;
 
 public record WifiApiResponse (
     String RN,
@@ -15,14 +17,11 @@ public record WifiApiResponse (
         return new WifiApiResponse(RN, AP_NAME, LAT, LON, ADDR_STATE, ADDR_CITY, ADDR_DETAIL);
     }
 
-    public PublicWifiDto toPublicWifiDto() {
-        return PublicWifiDto.of(
+    public PublicWifi toEntity() {
+        return PublicWifi.of(
                 AP_NAME,
-                LAT,
-                LON,
-                ADDR_STATE,
-                ADDR_CITY,
-                ADDR_DETAIL
+                Location.of(LAT, LON),
+                Address.of(ADDR_STATE, ADDR_CITY, ADDR_DETAIL)
         );
     }
 }

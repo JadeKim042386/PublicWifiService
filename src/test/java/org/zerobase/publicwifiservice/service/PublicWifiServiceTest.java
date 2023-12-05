@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.api.WifiApi;
-import org.zerobase.publicwifiservice.domain.PublicWifi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
@@ -29,27 +28,16 @@ class PublicWifiServiceTest {
     @Mock private PublicWifiRepository publicWifiRepository;
     @Mock private WifiApi wifiApi;
 
-    @DisplayName("공공와이파이 정보 전체 조회")
+    @DisplayName("API를 통한 공공와이파이 정보 전체 업데이트")
     @Test
     void getPublicWifiAll() {
         //given
         given(wifiApi.getWifis(0, 0, 0)).willReturn(List.of(TestDto.getWifiApiResponse()));
+        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(TestEntity.getPublicWifi()));
         //when
-        List<PublicWifiDto> publicWifis = publicWifiService.getPublicWifiAll();
+        publicWifiService.updatePublicWifiAll();
         //then
         then(wifiApi).should().getWifis(0, 0, 0);
-    }
-
-    @DisplayName("공공와이파이 정보 여러 개 저장")
-    @Test
-    void savePublicWifis() {
-        //given
-        PublicWifiDto publicWifiDto = TestDto.getPublicWifiDto();
-        PublicWifi publicWifi = TestEntity.getPublicWifi();
-        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(publicWifi));
-        //when
-        publicWifiService.savePublicWifis(List.of(publicWifiDto));
-        //then
         then(publicWifiRepository).should().saveAll(anyList());
     }
 
