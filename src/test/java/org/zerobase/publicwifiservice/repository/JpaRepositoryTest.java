@@ -79,6 +79,17 @@ public class JpaRepositoryTest {
             assertThat(savedPublicWifi.getId()).isEqualTo(31L);
         }
 
+        @DisplayName("이미 존재하는 WIFI Name인지 확인")
+        @Test
+        void existWifiName() {
+            //given
+            String wifiName = "pede";
+            //when
+            boolean result = publicWifiRepository.existsByWifiName(wifiName);
+            //then
+            assertThat(result).isEqualTo(true);
+        }
+
         @DisplayName("update")
         @Test
         void update() {

@@ -10,12 +10,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.api.WifiApi;
+import org.zerobase.publicwifiservice.domain.PublicWifi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -33,11 +35,16 @@ class PublicWifiServiceTest {
     void getPublicWifiAll() {
         //given
         given(wifiApi.getWifis(0, 0, 0)).willReturn(List.of(TestDto.getWifiApiResponse()));
-        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(TestEntity.getPublicWifi()));
+        given(publicWifiRepository.existsByWifiName(anyString())).willReturn(true);
+        PublicWifi publicWifi = TestEntity.getPublicWifi();
+        given(publicWifiRepository.getReferenceByWifiName(anyString())).willReturn(publicWifi);
+        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(publicWifi));
         //when
         publicWifiService.updatePublicWifiAll();
         //then
         then(wifiApi).should().getWifis(0, 0, 0);
+        then(publicWifiRepository).should().existsByWifiName(anyString());
+        then(publicWifiRepository).should().getReferenceByWifiName(anyString());
         then(publicWifiRepository).should().saveAll(anyList());
     }
 
