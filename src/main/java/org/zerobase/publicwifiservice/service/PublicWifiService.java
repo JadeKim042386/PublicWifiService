@@ -12,7 +12,6 @@ import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service

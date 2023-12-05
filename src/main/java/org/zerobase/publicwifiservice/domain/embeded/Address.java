@@ -1,7 +1,6 @@
 package org.zerobase.publicwifiservice.domain.embeded;
 
 import lombok.Getter;
-import org.zerobase.publicwifiservice.domain.PublicWifi;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;
