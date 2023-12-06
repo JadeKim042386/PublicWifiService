@@ -10,8 +10,10 @@ import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,26 +25,14 @@ public class PublicWifiService {
 
     @Transactional
     public void updatePublicWifiAll() {
-        List<PublicWifi> wifis = wifiApi.getWifis(0, 0, 0)
-                .stream().map(WifiApiResponse::toEntity).toList();
-        LinkedList<PublicWifi> notExistWifis = new LinkedList<>();
-        wifis.forEach(wifi -> {
-            //이미 존재하는 와이파이일 경우 Update (데이터가 다를 경우만)
-            if (publicWifiRepository.existsByWifiName(wifi.getWifiName())) {
-                PublicWifi publicWifi = publicWifiRepository.getReferenceByWifiName(wifi.getWifiName());
-                if (wifi.getLocation() != publicWifi.getLocation()) {
-                    publicWifi.setLocation(wifi.getLocation());
-                }
-                if (wifi.getAddress() != publicWifi.getAddress()) {
-                    publicWifi.setAddress(wifi.getAddress());
-                }
-            } else {
-                notExistWifis.add(wifi);
-            }
-        });
-        //존재하지 않은 와이파이들은 모두 저장
-        publicWifiRepository.saveAll(notExistWifis);
-
+        Set<PublicWifi> wifis = wifiApi.getWifis(0, 0, 0)
+                .stream().map(WifiApiResponse::toEntity).collect(Collectors.toSet());
+        //존재하지 않은 와이파이들을 모두 저장 (변경분만 저장)
+        publicWifiRepository.saveAll(
+                wifis.stream().filter(
+                        wifi -> !publicWifiRepository.existsByWifiName(wifi.getWifiName())
+                ).toList()
+        );
     }
 
     public List<PublicWifiDto> getNearestWifis(double latitude, double longitude) {
