@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
+import org.zerobase.publicwifiservice.Fixture.TestEntity;
+import org.zerobase.publicwifiservice.domain.PublicWifiLog;
 import org.zerobase.publicwifiservice.repository.PublicWifiLogRepository;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,6 +50,18 @@ class PublicWifiLogServiceTest {
         then(publicWifiLogRepository).should().deleteById(id);
     }
 
-
-
+    @DisplayName("기록 저장 - 1개")
+    @Test
+    void savePublicWifiLog() {
+        //given
+        PublicWifiLog publicWifiLog = TestEntity.getPublicWifiLog();
+        given(publicWifiLogRepository.save(any(PublicWifiLog.class))).willReturn(publicWifiLog);
+        //when
+        publicWifiLogService.saveWifiLog(
+                publicWifiLog.getLocation().getLatitude(),
+                publicWifiLog.getLocation().getLongitude()
+                );
+        //then
+        then(publicWifiLogRepository).should().save(any(PublicWifiLog.class));
+    }
 }

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.zerobase.publicwifiservice.domain.PublicWifiLog;
+import org.zerobase.publicwifiservice.domain.embeded.Location;
 import org.zerobase.publicwifiservice.dto.PublicWifiLogDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiLogRepository;
 
@@ -20,6 +22,13 @@ public class PublicWifiLogService {
         //TODO: 페이지네이션 적용 (pagesize=25, sort=createdAt DESC)
         return publicWifiLogRepository.findAll(pageable)
                 .map(PublicWifiLogDto::fromEntity);
+    }
+
+    @Transactional
+    public void saveWifiLog(Double latitude, Double longitude) {
+        publicWifiLogRepository.save(
+                PublicWifiLog.of(Location.of(latitude, longitude))
+        );
     }
 
     @Transactional
