@@ -9,10 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
-import org.zerobase.publicwifiservice.domain.Bookmark;
-import org.zerobase.publicwifiservice.domain.BookmarkGroup;
-import org.zerobase.publicwifiservice.domain.PublicWifi;
-import org.zerobase.publicwifiservice.domain.PublicWifiLog;
+import org.zerobase.publicwifiservice.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

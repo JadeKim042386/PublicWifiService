@@ -67,11 +67,12 @@ public class PublicWifi {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PublicWifi that)) return false;
-        return this.getId() != null && Objects.equals(this.getId(), that.getId());
+        return this.getId() != null && Objects.equals(this.getId(), that.getId()) ||
+                this.getWifiName() != null && Objects.equals(this.getWifiName(), that.getWifiName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId());
+        return Objects.hash(this.getId(), this.getWifiName());
     }
 }
