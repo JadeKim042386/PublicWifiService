@@ -2,24 +2,28 @@ package org.zerobase.publicwifiservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerobase.publicwifiservice.dto.PublicWifiLogDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiLogRepository;
 
-import java.util.List;
-
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PublicWifiLogService {
     private final PublicWifiLogRepository publicWifiLogRepository;
 
-    public List<PublicWifiLogDto> getWifiLogs() {
-        //TODO: 페이지네이션 적용 (pagesize=25, sort=createdAt)
-        return List.of();
+    public Page<PublicWifiLogDto> getWifiLogs(Pageable pageable) {
+        //TODO: 페이지네이션 적용 (pagesize=25, sort=createdAt DESC)
+        return publicWifiLogRepository.findAll(pageable)
+                .map(PublicWifiLogDto::fromEntity);
     }
 
+    @Transactional
     public void deleteWifiLog(Long id) {
-        return;
+        publicWifiLogRepository.deleteById(id);
     }
 }
