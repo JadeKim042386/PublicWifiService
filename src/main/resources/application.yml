@@ -12,10 +12,24 @@ logging.level:
   joo.project.my3d: debug
 spring:
   config.activate.on-profile: local
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+  devtools.livereload:
+    enabled: true
+    port: 35730
+  mvc:
+    view:
+      suffix: .jsp
 
 ---
 
