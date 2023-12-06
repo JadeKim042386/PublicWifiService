@@ -11,21 +11,25 @@ public class PublicWifiResponse{
     private String addrState;
     private String addrCity;
     private String addrDetail;
+    private Double distance;
+    private String updatedAt;
 
     protected PublicWifiResponse() {
     }
 
-    private PublicWifiResponse(String wifiName, Double latitude, Double longitude, String addrState, String addrCity, String addrDetail) {
+    private PublicWifiResponse(String wifiName, Double latitude, Double longitude, String addrState, String addrCity, String addrDetail, Double distance, String updatedAt) {
         this.wifiName = wifiName;
         this.latitude = latitude;
         this.longitude = longitude;
         this.addrState = addrState;
         this.addrCity = addrCity;
         this.addrDetail = addrDetail;
+        this.distance = distance;
+        this.updatedAt = updatedAt;
     }
 
-    public static PublicWifiResponse of(String wifiName, Double latitude, Double longitude, String addrState, String addrCity, String addrDetail) {
-        return new PublicWifiResponse(wifiName, latitude, longitude, addrState, addrCity, addrDetail);
+    public static PublicWifiResponse of(String wifiName, Double latitude, Double longitude, String addrState, String addrCity, String addrDetail, Double distance, String updatedAt) {
+        return new PublicWifiResponse(wifiName, latitude, longitude, addrState, addrCity, addrDetail, distance, updatedAt);
     }
 
     public static PublicWifiResponse fromDto(PublicWifiDto dto) {
@@ -35,7 +39,9 @@ public class PublicWifiResponse{
                 dto.longitude(),
                 dto.addrState(),
                 dto.addrCity(),
-                dto.addrDetail()
+                dto.addrDetail(),
+                dto.distance(),
+                dto.updatedAt()
         );
     }
 }

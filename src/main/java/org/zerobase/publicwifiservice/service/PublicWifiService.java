@@ -37,6 +37,7 @@ public class PublicWifiService {
 
     public List<PublicWifiDto> getNearestWifis(double latitude, double longitude) {
         return publicWifiRepository.findByDistance(latitude, longitude)
-                .stream().map(PublicWifiDto::fromEntity).toList();
+                .stream().map(entity -> PublicWifiDto.fromEntity(entity, latitude, longitude))
+                .toList();
     }
 }

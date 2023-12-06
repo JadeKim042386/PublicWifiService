@@ -40,26 +40,30 @@
             </div>
         </div>
     </form>
-    <table class="table table-bordered mt-4">
+    <table class="table table-bordered mt-4" style="width: 100%">
         <thead class="text-center">
             <tr>
-                <th>와이파이명</th>
-                <th>시도</th>
-                <th>시군구</th>
-                <th>상세주소</th>
-                <th>위도</th>
-                <th>경도</th>
+                <th style="width: 10%">거리(km)</th>
+                <th style="width: 15%">와이파이명</th>
+                <th style="width: 10%">시도</th>
+                <th style="width: 10%">시군구</th>
+                <th style="width: 25%">상세주소</th>
+                <th style="width: 10%">위도</th>
+                <th style="width: 10%">경도</th>
+                <th style="width: 10%">업데이트일자</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="wifi" items="${wifiList}">
                 <tr>
+                    <td>${wifi.distance}</td>
                     <td>${wifi.wifiName}</td>
                     <td>${wifi.addrState}</td>
                     <td>${wifi.addrCity}</td>
                     <td>${wifi.addrDetail}</td>
                     <td>${wifi.latitude}</td>
                     <td>${wifi.longitude}</td>
+                    <td>${wifi.updatedAt}</td>
                 </tr>
             </c:forEach>
         </tbody>
