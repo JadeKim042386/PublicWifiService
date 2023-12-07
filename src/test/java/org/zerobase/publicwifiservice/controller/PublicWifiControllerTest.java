@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
 
@@ -60,5 +61,23 @@ class PublicWifiControllerTest {
         //then
         then(publicWifiService).should().getNearestWifis(anyDouble(), anyDouble());
         then(publicWifiLogService).should().saveWifiLog(anyDouble(), anyDouble());
+    }
+
+    @DisplayName("와이파이 상세정보 조회")
+    @Test
+    void detailPublicWifi() throws Exception {
+        //given
+        given(publicWifiService.getWifi(anyLong(), anyDouble())).willReturn(TestDto.getPublicWifiDto());
+        //when
+        mvc.perform(
+                get("/public_wifi/detail/1")
+                        .queryParam("distance", "0.1827")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("/public_wifi/detail"))
+                .andExpect(model().attributeExists("publicWifi"));
+        //then
+        then(publicWifiService).should().getWifi(anyLong(), anyDouble());
     }
 }

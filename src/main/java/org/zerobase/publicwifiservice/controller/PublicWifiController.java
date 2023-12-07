@@ -3,6 +3,7 @@ package org.zerobase.publicwifiservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.zerobase.publicwifiservice.dto.response.Response;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -57,5 +59,21 @@ public class PublicWifiController {
         );
 
         return "redirect:/";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detailPublicWIfi(
+            HttpServletResponse response,
+            @PathVariable Long id,
+            @RequestParam Double distance,
+            Model model
+    ) {
+        response.setContentType("text/html; charset=utf-8");
+        model.addAttribute(
+                "publicWifi",
+                PublicWifiResponse.fromDto(publicWifiService.getWifi(id, distance))
+        );
+
+        return "/public_wifi/detail";
     }
 }

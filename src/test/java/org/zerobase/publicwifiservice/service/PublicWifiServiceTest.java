@@ -14,10 +14,11 @@ import org.zerobase.publicwifiservice.domain.PublicWifi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -57,5 +58,20 @@ class PublicWifiServiceTest {
         List<PublicWifiDto> wifids = publicWifiService.getNearestWifis(latitude, longitude);
         //then
         then(publicWifiRepository).should().findByDistance(latitude, longitude);
+    }
+
+    @DisplayName("와이파이 상세 정보 조회")
+    @Test
+    void getWifi() {
+        //given
+        Long id = 1L;
+        Double distance = 0.1827;
+        PublicWifi publicWifi = TestEntity.getPublicWifi();
+        publicWifi.setUpdatedAt(LocalDateTime.now());
+        given(publicWifiRepository.findById(anyLong())).willReturn(Optional.of(publicWifi));
+        //when
+        publicWifiService.getWifi(id, distance);
+        //then
+        then(publicWifiRepository).should().findById(anyLong());
     }
 }
