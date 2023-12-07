@@ -37,14 +37,12 @@ class PublicWifiServiceTest {
         given(wifiApi.getWifis(0, 0, 0)).willReturn(List.of(TestDto.getWifiApiResponse()));
         given(publicWifiRepository.existsByWifiName(anyString())).willReturn(true);
         PublicWifi publicWifi = TestEntity.getPublicWifi();
-        given(publicWifiRepository.getReferenceByWifiName(anyString())).willReturn(publicWifi);
         given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(publicWifi));
         //when
         publicWifiService.updatePublicWifiAll();
         //then
         then(wifiApi).should().getWifis(0, 0, 0);
         then(publicWifiRepository).should().existsByWifiName(anyString());
-        then(publicWifiRepository).should().getReferenceByWifiName(anyString());
         then(publicWifiRepository).should().saveAll(anyList());
     }
 

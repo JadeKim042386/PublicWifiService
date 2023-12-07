@@ -10,6 +10,7 @@ import org.zerobase.publicwifiservice.domain.PublicWifiLog;
 import org.zerobase.publicwifiservice.domain.embeded.Location;
 import org.zerobase.publicwifiservice.dto.PublicWifiLogDto;
 import org.zerobase.publicwifiservice.repository.PublicWifiLogRepository;
+import org.zerobase.publicwifiservice.utils.MathUtils;
 
 @Slf4j
 @Service
@@ -19,7 +20,6 @@ public class PublicWifiLogService {
     private final PublicWifiLogRepository publicWifiLogRepository;
 
     public Page<PublicWifiLogDto> getWifiLogs(Pageable pageable) {
-        //TODO: 페이지네이션 적용 (pagesize=25, sort=createdAt DESC)
         return publicWifiLogRepository.findAll(pageable)
                 .map(PublicWifiLogDto::fromEntity);
     }
@@ -27,7 +27,12 @@ public class PublicWifiLogService {
     @Transactional
     public void saveWifiLog(Double latitude, Double longitude) {
         publicWifiLogRepository.save(
-                PublicWifiLog.of(Location.of(latitude, longitude))
+                PublicWifiLog.of(
+                        Location.of(
+                                MathUtils.roundToNDecimalPlaces(latitude, 4),
+                                MathUtils.roundToNDecimalPlaces(longitude, 4)
+                        )
+                )
         );
     }
 

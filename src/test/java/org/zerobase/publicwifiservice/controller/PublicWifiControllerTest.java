@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
 
 import java.util.List;
@@ -24,7 +25,9 @@ class PublicWifiControllerTest {
 
     @Autowired private MockMvc mvc;
     @MockBean private PublicWifiService publicWifiService;
+    @MockBean private PublicWifiLogService publicWifiLogService;
 
+    @DisplayName("와이파이 전체 정보 업데이트")
     @Test
     void updateAllByApi() throws Exception {
         //given
@@ -39,10 +42,12 @@ class PublicWifiControllerTest {
         then(publicWifiService).should().updatePublicWifiAll();
     }
 
+    @DisplayName("가까운 와이파이 정보 조회")
     @Test
     void findNearestWifi() throws Exception {
         //given
         given(publicWifiService.getNearestWifis(anyDouble(), anyDouble())).willReturn(List.of());
+        willDoNothing().given(publicWifiLogService).saveWifiLog(anyDouble(), anyDouble());
         //when
         mvc.perform(
                 post("/public_wifi/findNearestWifi")
@@ -54,5 +59,6 @@ class PublicWifiControllerTest {
                 .andExpect(redirectedUrl("/"));
         //then
         then(publicWifiService).should().getNearestWifis(anyDouble(), anyDouble());
+        then(publicWifiLogService).should().saveWifiLog(anyDouble(), anyDouble());
     }
 }
