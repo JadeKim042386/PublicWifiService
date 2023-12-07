@@ -11,6 +11,7 @@ import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.request.UserLocationRequest;
 import org.zerobase.publicwifiservice.dto.response.PublicWifiResponse;
 import org.zerobase.publicwifiservice.dto.response.Response;
+import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
 
 import java.util.List;
@@ -21,18 +22,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PublicWifiController {
     private final PublicWifiService publicWifiService;
+    private final PublicWifiLogService publicWifiLogService;
 
     @ResponseBody
     @GetMapping("/apiUpdateAll")
     public Response<Void> updateAllByApi() {
         try {
             publicWifiService.updatePublicWifiAll();
+            return Response.success();
         } catch (RuntimeException e) {
             log.error("업데이트 실패", e);
             return Response.fail();
         }
-
-        return Response.success();
     }
 
     @PostMapping("/findNearestWifi")
@@ -49,6 +50,10 @@ public class PublicWifiController {
         redirectAttributes.addFlashAttribute(
                 "wifiList",
                 nearestWifis.stream().map(PublicWifiResponse::fromDto).toList()
+        );
+        publicWifiLogService.saveWifiLog(
+                userLocationRequest.getLatitude(),
+                userLocationRequest.getLongitude()
         );
 
         return "redirect:/";
