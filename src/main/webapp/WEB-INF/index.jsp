@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <title>와이파이 정보 구하기</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
         a {
             text-decoration-line: none;
@@ -24,7 +23,7 @@
             <h1>와이파이 정보 구하기</h1>
         </div>
         <a href="/" class="pe-3">홈</a>
-        <a href="#" class="pe-3">검색 기록 조회</a>
+        <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
         <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
     </div>
 </header>
@@ -41,7 +40,7 @@
         </div>
     </form>
     <table class="table table-bordered mt-4" style="width: 100%">
-        <thead class="text-center">
+        <thead class="text-center table-primary">
             <tr>
                 <th style="width: 10%">거리(km)</th>
                 <th style="width: 15%">와이파이명</th>
@@ -70,6 +69,8 @@
     </table>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="/resources/js/requestUpdateAll.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
     function getUserLocation() {
@@ -81,39 +82,7 @@
         });
     }
 
-    function requestUpdateAll() {
-        $.ajax({
-            url: "/public_wifi/apiUpdateAll",
-            type: "GET",
-            beforeSend: function () {
-                $('html').css('cursor', 'wait');
-            },
-            success: function (result) {
-                $('html').css('cursor', 'auto');
-                console.log(result.resultCode);
-                successAlert("업데이트를 완료했습니다.")
-            },
-            error: function (result) {
-                $('html').css('cursor', 'auto');
-                console.log(result.resultCode);
-                failAlert("업데이트에 실패했습니다.")
-            }
-        });
-    }
 
-    function successAlert(message) {
-        Swal.fire({
-            icon: 'success',
-            text: message
-        })
-    }
-
-    function failAlert(message) {
-        Swal.fire({
-            icon: 'error',
-            text: message
-        })
-    }
 
     function enableInputText() {
         $('#latitude').removeAttr('disabled');

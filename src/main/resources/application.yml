@@ -30,6 +30,8 @@ spring:
   mvc:
     view:
       suffix: .jsp
+      prefix: /WEB-INF
+    static-path-pattern: /resources/**
 
 ---
 
