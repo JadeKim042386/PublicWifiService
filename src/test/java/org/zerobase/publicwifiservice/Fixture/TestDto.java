@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class TestDto {
     public static PublicWifiDto getPublicWifiDto() {
         return PublicWifiDto.of(
+                33L,
                 "wifi",
                 11.1,
                 11.1,

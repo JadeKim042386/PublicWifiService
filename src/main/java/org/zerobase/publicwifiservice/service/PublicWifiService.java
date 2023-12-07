@@ -10,6 +10,7 @@ import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,5 +40,12 @@ public class PublicWifiService {
         return publicWifiRepository.findByDistance(latitude, longitude)
                 .stream().map(entity -> PublicWifiDto.fromEntity(entity, latitude, longitude))
                 .toList();
+    }
+
+
+    public PublicWifiDto getWifi(Long id, Double distance) {
+        return publicWifiRepository.findById(id)
+                .map(entity -> PublicWifiDto.fromEntity(entity, distance))
+                .orElseThrow(EntityNotFoundException::new);
     }
 }
