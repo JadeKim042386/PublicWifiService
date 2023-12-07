@@ -50,7 +50,7 @@ class PublicWifiLogControllerTest {
         willDoNothing().given(publicWifiLogService).deleteWifiLog(id);
         //when
         mvc.perform(
-                get("/wifi_log/1")
+                get("/wifi_log/delete/1")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
