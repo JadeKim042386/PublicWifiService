@@ -1,10 +1,14 @@
 package org.zerobase.publicwifiservice.Fixture;
 
+import org.zerobase.publicwifiservice.domain.BookmarkGroup;
+import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
 import org.zerobase.publicwifiservice.utils.DateTimeUtils;
 
 import java.time.LocalDateTime;
+
+import static org.mockito.ArgumentMatchers.any;
 
 public class TestDto {
     public static PublicWifiDto getPublicWifiDto() {
@@ -23,5 +27,14 @@ public class TestDto {
 
     public static WifiApiResponse getWifiApiResponse() {
         return WifiApiResponse.of("", "wifi", 0D, 0D, "state", "city", "detail");
+    }
+
+    public static BookmarkGroupDto getBookmarkGroupDto() {
+        return BookmarkGroupDto.of(
+                1L,
+                "group",
+                DateTimeUtils.format(LocalDateTime.now()),
+                DateTimeUtils.format(LocalDateTime.now())
+        );
     }
 }

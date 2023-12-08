@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.zerobase.publicwifiservice.service.PaginationService;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +27,8 @@ class PublicWifiLogControllerTest {
     private MockMvc mvc;
     @MockBean
     private PublicWifiLogService publicWifiLogService;
+    @MockBean
+    private PaginationService paginationService;
 
     @Test
     void getWifiLogs() throws Exception {
