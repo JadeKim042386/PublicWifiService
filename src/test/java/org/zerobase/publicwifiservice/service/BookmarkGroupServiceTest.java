@@ -50,7 +50,7 @@ class BookmarkGroupServiceTest {
         BookmarkGroup bookmarkGroup = TestEntity.getBookmarkGroup();
         given(bookmarkGroupRepository.save(any(BookmarkGroup.class))).willReturn(bookmarkGroup);
         //when
-        bookmarkGroupService.saveBookmarkGroup(bookmarkGroup);
+        bookmarkGroupService.saveBookmarkGroup(TestDto.getBookmarkGroupDto());
         //then
         then(bookmarkGroupRepository).should().save(any(BookmarkGroup.class));
     }
