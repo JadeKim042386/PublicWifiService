@@ -64,4 +64,21 @@ class BookmarkGroupControllerTest {
         //then
         then(bookmarkGroupService).should().saveBookmarkGroup(any(BookmarkGroupDto.class));
     }
+
+    @DisplayName("북마크 그룹 수정")
+    @Test
+    void updateBookmarkGroup() throws Exception {
+        //given
+        willDoNothing().given(bookmarkGroupService).updateBookmarkGroup(any(BookmarkGroupDto.class));
+        //when
+        mvc.perform(
+                        post("/bookmark_group/update/1")
+                                .queryParam("groupName", "group")
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/bookmark_group"))
+                .andExpect(redirectedUrl("/bookmark_group"));
+        //then
+        then(bookmarkGroupService).should().updateBookmarkGroup(any(BookmarkGroupDto.class));
+    }
 }
