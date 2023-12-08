@@ -8,12 +8,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.zerobase.publicwifiservice.dto.request.BookmarkGroupRequest;
 import org.zerobase.publicwifiservice.dto.response.BookmarkGroupResponse;
+import org.zerobase.publicwifiservice.dto.response.Response;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -56,5 +54,17 @@ public class BookmarkGroupController {
         bookmarkGroupService.updateBookmarkGroup(bookmarkGroupRequest.toDto());
 
         return "redirect:/bookmark_group";
+    }
+
+    @ResponseBody
+    @GetMapping("/delete/{id}")
+    public Response<Void> deleteBookmarkGroup(@PathVariable Long id) {
+        try {
+            bookmarkGroupService.deleteBookmarkGroup(id);
+            return Response.success();
+        } catch (IllegalArgumentException e) {
+            log.error("북마크그룹 삭제 실패", e);
+            return Response.fail();
+        }
     }
 }

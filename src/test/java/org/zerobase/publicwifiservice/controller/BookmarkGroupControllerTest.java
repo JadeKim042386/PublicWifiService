@@ -81,4 +81,19 @@ class BookmarkGroupControllerTest {
         //then
         then(bookmarkGroupService).should().updateBookmarkGroup(any(BookmarkGroupDto.class));
     }
+
+    @DisplayName("북마크 그룹 삭제")
+    @Test
+    void deleteBookmarkGroup() throws Exception {
+        //given
+        willDoNothing().given(bookmarkGroupService).deleteBookmarkGroup(anyLong());
+        //when
+        mvc.perform(
+                get("/bookmark_group/delete/1")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        //then
+        then(bookmarkGroupService).should().deleteBookmarkGroup(anyLong());
+    }
 }
