@@ -56,7 +56,9 @@
             <c:forEach var="wifi" items="${wifiList}">
                 <tr>
                     <td>${wifi.distance}</td>
-                    <td>${wifi.wifiName}</td>
+                    <td>
+                        <a href="/public_wifi/detail/${wifi.id}?distance=${wifi.distance}" class="fw-bolder">${wifi.wifiName}</a>
+                    </td>
                     <td>${wifi.addrState}</td>
                     <td>${wifi.addrCity}</td>
                     <td>${wifi.addrDetail}</td>
