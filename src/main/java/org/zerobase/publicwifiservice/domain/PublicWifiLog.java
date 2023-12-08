@@ -14,8 +14,7 @@ import java.util.Objects;
 @Table(
         name = "public_wifi_log",
         indexes = {
-                @Index(columnList = "id"),
-                @Index(name="location", columnList = "latitude, longitude", unique = true)
+                @Index(columnList = "id")
         }
 )
 @Entity
