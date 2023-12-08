@@ -52,6 +52,39 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="text-xs-center">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 -->
+                <c:choose>
+                    <c:when test="${logs.number <= 0}">
+                        <li class="page-item"><a class="page-link disabled" href="/wifi_log?page=${logs.number - 1}">Prev</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="/wifi_log?page=${logs.number - 1}">Prev</a></li>
+                    </c:otherwise>
+                </c:choose>
+                <!-- 페이지 그룹 -->
+                <c:forEach var="n" items="${paginationBarNumbers}">
+                    <c:choose>
+                        <c:when test="${logs.number == n}">
+                            <li class="page-item"><a class="page-link disabled" href="/wifi_log?page=${n}">${n}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="/wifi_log?page=${n}">${n}</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <!-- 다음 -->
+                <c:choose>
+                    <c:when test="${logs.totalPages == 1 || logs.number < logs.totalPages - 1}">
+                        <li class="page-item "><a class="page-link disabled" href="/wifi_log/?page=${logs.totalPages - 1}">Next</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item "><a class="page-link" href="/wifi_log/?page=${logs.totalPages - 1}">Next</a></li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
