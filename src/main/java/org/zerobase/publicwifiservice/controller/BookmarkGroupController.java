@@ -8,7 +8,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerobase.publicwifiservice.dto.request.BookmarkGroupRequest;
 import org.zerobase.publicwifiservice.dto.response.BookmarkGroupResponse;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
 
@@ -36,5 +39,12 @@ public class BookmarkGroupController {
         return "/bookmark/bookmark_group";
     }
 
+    @PostMapping("/save")
+    public String saveBookmarkGroup(
+            @ModelAttribute BookmarkGroupRequest bookmarkGroupRequest
+    ) {
+        bookmarkGroupService.saveBookmarkGroup(bookmarkGroupRequest.toDto());
 
+        return "redirect:/bookmark_group";
+    }
 }

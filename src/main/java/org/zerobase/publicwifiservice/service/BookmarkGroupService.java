@@ -22,8 +22,8 @@ public class BookmarkGroupService {
     }
 
     @Transactional
-    public void saveBookmarkGroup(BookmarkGroup bookmarkGroup) {
-        bookmarkGroupRepository.save(bookmarkGroup);
+    public void saveBookmarkGroup(BookmarkGroupDto bookmarkGroupDto) {
+        bookmarkGroupRepository.save(bookmarkGroupDto.toEntity());
     }
 
     @Transactional
