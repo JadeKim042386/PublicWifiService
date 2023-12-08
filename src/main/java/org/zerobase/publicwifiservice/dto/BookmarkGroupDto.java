@@ -26,7 +26,7 @@ public record BookmarkGroupDto(
                 entity.getId(),
                 entity.getGroupName(),
                 DateTimeUtils.format(entity.getCreatedAt()),
-                DateTimeUtils.format(entity.getModifiedAt())
+                entity.getModifiedAt() != null ? DateTimeUtils.format(entity.getModifiedAt()) : null
         );
     }
 
