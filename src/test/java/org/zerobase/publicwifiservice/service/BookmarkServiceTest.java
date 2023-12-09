@@ -11,13 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
-import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.domain.Bookmark;
-import org.zerobase.publicwifiservice.dto.BookmarkDto;
+import org.zerobase.publicwifiservice.repository.BookmarkGroupRepository;
 import org.zerobase.publicwifiservice.repository.BookmarkRepository;
+import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
@@ -27,6 +26,8 @@ import static org.mockito.BDDMockito.*;
 class BookmarkServiceTest {
     @InjectMocks private BookmarkService bookmarkService;
     @Mock private BookmarkRepository bookmarkRepository;
+    @Mock private BookmarkGroupRepository bookmarkGroupRepository;
+    @Mock private PublicWifiRepository publicWifiRepository;
 
     @DisplayName("북마크 조회")
     @Test
@@ -44,12 +45,15 @@ class BookmarkServiceTest {
     @Test
     void saveBookmark() {
         //given
-        BookmarkDto bookmarkDto = TestDto.getBookmarkDto();
         Bookmark bookmark = TestEntity.getBookmark();
+        given(bookmarkGroupRepository.getReferenceById(anyLong())).willReturn(TestEntity.getBookmarkGroup());
+        given(publicWifiRepository.getReferenceById(anyLong())).willReturn(TestEntity.getPublicWifi());
         given(bookmarkRepository.save(any(Bookmark.class))).willReturn(bookmark);
         //when
-        bookmarkService.saveBookmark(bookmarkDto);
+        bookmarkService.saveBookmark(1L, 1L);
         //then
+        then(bookmarkGroupRepository).should().getReferenceById(anyLong());
+        then(publicWifiRepository).should().getReferenceById(anyLong());
         then(bookmarkRepository).should().save(any(Bookmark.class));
     }
 
