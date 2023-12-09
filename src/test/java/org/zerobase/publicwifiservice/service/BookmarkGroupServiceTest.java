@@ -24,13 +24,13 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 
 @ActiveProfiles("test")
-@DisplayName("비지니스 로직 - 북마크 그룹")
+@DisplayName("비지니스 로직 - 즐겨찾기 그룹")
 @ExtendWith(MockitoExtension.class)
 class BookmarkGroupServiceTest {
     @InjectMocks private BookmarkGroupService bookmarkGroupService;
     @Mock private BookmarkGroupRepository bookmarkGroupRepository;
 
-    @DisplayName("북마크 그룹 조회")
+    @DisplayName("즐겨찾기 그룹 조회")
     @Test
     void getBookmarkGroups() {
         //given
@@ -42,7 +42,7 @@ class BookmarkGroupServiceTest {
         then(bookmarkGroupRepository).should().findAll(any(Pageable.class));
     }
 
-    @DisplayName("북마크 그룹 추가(저장)")
+    @DisplayName("즐겨찾기 그룹 추가(저장)")
     @Test
     void saveBookmarkGroup() {
         //given
@@ -54,7 +54,7 @@ class BookmarkGroupServiceTest {
         then(bookmarkGroupRepository).should().save(any(BookmarkGroup.class));
     }
 
-    @DisplayName("북마크 그룹 수정")
+    @DisplayName("즐겨찾기 그룹 수정")
     @Test
     void updateBookmarkGroup() {
         //given
@@ -70,7 +70,7 @@ class BookmarkGroupServiceTest {
         then(bookmarkGroupRepository).should().flush();
     }
 
-    @DisplayName("북마크 그룹 삭제")
+    @DisplayName("즐겨찾기 그룹 삭제")
     @Test
     void deleteBookmarkGroup() {
         //given

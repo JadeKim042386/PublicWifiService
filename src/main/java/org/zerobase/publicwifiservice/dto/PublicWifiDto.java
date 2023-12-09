@@ -61,7 +61,7 @@ public record PublicWifiDto(
     }
 
     /**
-     * 북마크 추가/조회시 사용
+     * 즐겨찾기 추가/조회시 사용
      */
     public static PublicWifiDto fromEntity(PublicWifi entity) {
         return PublicWifiDto.of(

@@ -14,7 +14,7 @@ public record BookmarkGroupDto(
     }
 
     /**
-     * 북마크 그룹 수정, 추가에 사용
+     * 즐겨찾기 그룹 수정, 추가에 사용
      * BookmarkGroupRequest -> BookmarkGroupDto
      */
     public static BookmarkGroupDto of(Long id, String groupName) {

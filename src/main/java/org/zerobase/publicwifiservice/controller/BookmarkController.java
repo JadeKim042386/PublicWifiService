@@ -51,7 +51,7 @@ public class BookmarkController {
             bookmarkService.saveBookmark(bookmarkRequest.getGroupId(), bookmarkRequest.getWifiId());
             return Response.success();
         } catch (IllegalArgumentException e) {
-            log.error("북마크 저장 실패", e);
+            log.error("즐겨찾기 저장 실패", e);
             throw e;
         }
     }
@@ -63,7 +63,7 @@ public class BookmarkController {
             bookmarkService.deleteBookmark(id);
             return Response.success();
         } catch (IllegalArgumentException e) {
-            log.error("북마크그룹 삭제 실패", e);
+            log.error("즐겨찾기그룹 삭제 실패", e);
             throw e;
         }
     }

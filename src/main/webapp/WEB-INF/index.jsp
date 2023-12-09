@@ -25,8 +25,8 @@
         <a href="/" class="pe-3">홈</a>
         <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
         <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
-        <a href="/bookmark" class="pe-3">북마크 조회</a>
-        <a href="/bookmark_group" class="pe-3">북마크 그룹 관리</a>
+        <a href="/bookmark" class="pe-3">즐겨찾기 조회</a>
+        <a href="/bookmark_group" class="pe-3">즐겨찾기 그룹 관리</a>
     </div>
 </header>
 <body>
