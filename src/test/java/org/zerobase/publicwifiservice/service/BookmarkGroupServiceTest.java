@@ -17,6 +17,7 @@ import org.zerobase.publicwifiservice.domain.BookmarkGroup;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.repository.BookmarkGroupRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,11 +61,15 @@ class BookmarkGroupServiceTest {
     void updateBookmarkGroup() {
         //given
         BookmarkGroupDto bookmarkGroupDto = TestDto.getBookmarkGroupDto();
-        given(bookmarkGroupRepository.getReferenceById(anyLong())).willReturn(TestEntity.getBookmarkGroup());
+        BookmarkGroup bookmarkGroup = TestEntity.getBookmarkGroup();
+        bookmarkGroup.setCreatedAt(LocalDateTime.now());
+        given(bookmarkGroupRepository.getReferenceById(anyLong())).willReturn(bookmarkGroup);
+        willDoNothing().given(bookmarkGroupRepository).flush();
         //when
         bookmarkGroupService.updateBookmarkGroup(bookmarkGroupDto);
         //then
         then(bookmarkGroupRepository).should().getReferenceById(anyLong());
+        then(bookmarkGroupRepository).should().flush();
     }
 
     @DisplayName("북마크 그룹 삭제")

@@ -27,11 +27,13 @@ public class BookmarkGroupService {
     }
 
     @Transactional
-    public void updateBookmarkGroup(BookmarkGroupDto bookmarkGroupDto) {
+    public BookmarkGroupDto updateBookmarkGroup(BookmarkGroupDto bookmarkGroupDto) {
         BookmarkGroup bookmarkGroup = bookmarkGroupRepository.getReferenceById(bookmarkGroupDto.id());
         if (bookmarkGroupDto.groupName() != null) {
             bookmarkGroup.setGroupName(bookmarkGroupDto.groupName());
         }
+        bookmarkGroupRepository.flush();
+        return BookmarkGroupDto.fromEntity(bookmarkGroup);
     }
 
     @Transactional

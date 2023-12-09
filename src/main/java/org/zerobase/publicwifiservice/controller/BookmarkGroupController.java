@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.zerobase.publicwifiservice.dto.request.BookmarkGroupRequest;
@@ -47,13 +48,22 @@ public class BookmarkGroupController {
         return "redirect:/bookmark_group";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateBookmarkGroup(
-            @ModelAttribute @Validated BookmarkGroupRequest bookmarkGroupRequest
+    @ResponseBody
+    @PostMapping("/update")
+    public Response<BookmarkGroupResponse> updateBookmarkGroup(
+            @ModelAttribute @Validated BookmarkGroupRequest bookmarkGroupRequest,
+            BindingResult bindingResult
     ) {
-        bookmarkGroupService.updateBookmarkGroup(bookmarkGroupRequest.toDto());
+        if (bindingResult.hasErrors()) {
+            log.warn("formBindingResult={}", bindingResult);
+            return Response.fail();
+        }
 
-        return "redirect:/bookmark_group";
+        return Response.success(
+                BookmarkGroupResponse.fromDto(
+                        bookmarkGroupService.updateBookmarkGroup(bookmarkGroupRequest.toDto())
+                )
+        );
     }
 
     @ResponseBody

@@ -14,11 +14,11 @@ public record BookmarkGroupDto(
     }
 
     /**
-     * 북마크 그룹 저장에 사용
+     * 북마크 그룹 수정, 추가에 사용
      * BookmarkGroupRequest -> BookmarkGroupDto
      */
-    public static BookmarkGroupDto of(String groupName) {
-        return new BookmarkGroupDto(null, groupName, null, null);
+    public static BookmarkGroupDto of(Long id, String groupName) {
+        return new BookmarkGroupDto(id, groupName, null, null);
     }
 
     public static BookmarkGroupDto fromEntity(BookmarkGroup entity) {
@@ -26,7 +26,7 @@ public record BookmarkGroupDto(
                 entity.getId(),
                 entity.getGroupName(),
                 DateTimeUtils.format(entity.getCreatedAt()),
-                DateTimeUtils.format(entity.getModifiedAt())
+                entity.getModifiedAt() != null ? DateTimeUtils.format(entity.getModifiedAt()) : null
         );
     }
 
