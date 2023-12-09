@@ -168,7 +168,7 @@ public class JpaRepositoryTest {
     }
 
     @ActiveProfiles("test")
-    @DisplayName("북마크 그룹 JPA 테스트")
+    @DisplayName("즐겨찾기 그룹 JPA 테스트")
     @DataJpaTest
     @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
     @Nested
@@ -237,7 +237,7 @@ public class JpaRepositoryTest {
     }
 
     @ActiveProfiles("test")
-    @DisplayName("북마크 JPA 테스트")
+    @DisplayName("즐겨찾기 JPA 테스트")
     @DataJpaTest
     @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
     @Nested

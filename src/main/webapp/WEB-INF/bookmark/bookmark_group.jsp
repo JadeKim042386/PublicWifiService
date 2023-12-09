@@ -27,18 +27,18 @@
         <a href="/" class="pe-3">홈</a>
         <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
         <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
-        <a href="/bookmark" class="pe-3">북마크 조회</a>
-        <a href="/bookmark_group" class="pe-3">북마크 그룹 관리</a>
+        <a href="/bookmark" class="pe-3">즐겨찾기 조회</a>
+        <a href="/bookmark_group" class="pe-3">즐겨찾기 그룹 관리</a>
     </div>
 </header>
 <body>
 <div class="container">
-    <button id="addBookmarkGroup" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookmarkGroupModal">북마크 그룹 추가</button>
+    <button id="addBookmarkGroup" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookmarkGroupModal">즐겨찾기 그룹 추가</button>
     <div class="modal fade" id="addBookmarkGroupModal" tabindex="-1" aria-labelledby="addBookmarkGroupModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">북마크 그룹 추가</h1>
+                    <h1 class="modal-title fs-5">즐겨찾기 그룹 추가</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -82,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">북마크 그룹 수정</h1>
+                    <h1 class="modal-title fs-5">즐겨찾기 그룹 수정</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

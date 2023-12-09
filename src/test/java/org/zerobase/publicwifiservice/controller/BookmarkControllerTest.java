@@ -21,13 +21,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles("test")
-@DisplayName("View 컨트롤러 - 북마크")
+@DisplayName("View 컨트롤러 - 즐겨찾기")
 @WebMvcTest(BookmarkController.class)
 class BookmarkControllerTest {
     @Autowired private MockMvc mvc;
     @MockBean private BookmarkService bookmarkService;
 
-    @DisplayName("북마크 조회")
+    @DisplayName("즐겨찾기 조회")
     @Test
     void getBookmarks() throws Exception {
         //given
@@ -43,7 +43,7 @@ class BookmarkControllerTest {
         then(bookmarkService).should().getBookmarks(any(Pageable.class));
     }
 
-    @DisplayName("북마크 저장")
+    @DisplayName("즐겨찾기 저장")
     @Test
     void saveBookmark() throws Exception {
         //given
@@ -60,7 +60,7 @@ class BookmarkControllerTest {
         then(bookmarkService).should().saveBookmark(anyLong(), anyLong());
     }
 
-    @DisplayName("북마크 삭제")
+    @DisplayName("즐겨찾기 삭제")
     @Test
     void deleteBookmark() throws Exception {
         //given

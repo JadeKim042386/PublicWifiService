@@ -73,7 +73,7 @@ public class BookmarkGroupController {
             bookmarkGroupService.deleteBookmarkGroup(id);
             return Response.success();
         } catch (IllegalArgumentException e) {
-            log.error("북마크그룹 삭제 실패", e);
+            log.error("즐겨찾기그룹 삭제 실패", e);
             return Response.fail();
         }
     }

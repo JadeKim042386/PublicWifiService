@@ -25,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @ActiveProfiles("test")
-@DisplayName("View 컨트롤러 - 북마크 그룹")
+@DisplayName("View 컨트롤러 - 즐겨찾기 그룹")
 @WebMvcTest(BookmarkGroupController.class)
 class BookmarkGroupControllerTest {
     @Autowired private MockMvc mvc;
     @MockBean private BookmarkGroupService bookmarkGroupService;
 
-    @DisplayName("북마크 그룹 조회")
+    @DisplayName("즐겨찾기 그룹 조회")
     @Test
     void getBookmarkGroups() throws Exception {
         //given
@@ -48,7 +48,7 @@ class BookmarkGroupControllerTest {
         then(bookmarkGroupService).should().getBookmarkGroups(any(Pageable.class));
     }
 
-    @DisplayName("북마크 그룹 저장")
+    @DisplayName("즐겨찾기 그룹 저장")
     @Test
     void saveBookmarkGroup() throws Exception {
         //given
@@ -65,7 +65,7 @@ class BookmarkGroupControllerTest {
         then(bookmarkGroupService).should().saveBookmarkGroup(any(BookmarkGroupDto.class));
     }
 
-    @DisplayName("북마크 그룹 수정")
+    @DisplayName("즐겨찾기 그룹 수정")
     @Test
     void updateBookmarkGroup() throws Exception {
         //given
@@ -82,7 +82,7 @@ class BookmarkGroupControllerTest {
         then(bookmarkGroupService).should().updateBookmarkGroup(any(BookmarkGroupDto.class));
     }
 
-    @DisplayName("북마크 그룹 삭제")
+    @DisplayName("즐겨찾기 그룹 삭제")
     @Test
     void deleteBookmarkGroup() throws Exception {
         //given
