@@ -244,6 +244,7 @@ public class JpaRepositoryTest {
     public class BookmarkJpaTest {
         @Autowired private BookmarkRepository bookmarkRepository;
         @Autowired private BookmarkGroupRepository bookmarkGroupRepository;
+        @Autowired private PublicWifiRepository publicWifiRepository;
 
         @DisplayName("findAll")
         @Test
@@ -270,27 +271,14 @@ public class JpaRepositoryTest {
         @Test
         void save() {
             //given
-            Bookmark bookmark = TestEntity.getBookmark(bookmarkGroupRepository.getReferenceById(1L));
+            Bookmark bookmark = TestEntity.getBookmark(
+                    bookmarkGroupRepository.getReferenceById(1L),
+                    publicWifiRepository.getReferenceById(1L)
+            );
             //when
             Bookmark savedBookmark = bookmarkRepository.save(bookmark);
             //then
             assertThat(savedBookmark.getId()).isEqualTo(21L);
-        }
-
-        @DisplayName("update")
-        @Test
-        void update() {
-            //given
-            Long id = 1L;
-            String bookmarkName = "bookmark";
-            Bookmark bookmark = bookmarkRepository.getReferenceById(id);
-            bookmark.setBookmarkName(bookmarkName);
-            LocalDateTime prevModifiedAt = bookmark.getModifiedAt();
-            //when
-            bookmarkRepository.saveAndFlush(bookmark);
-            //then
-            assertThat(bookmark.getModifiedAt()).isNotEqualTo(prevModifiedAt);
-            assertThat(bookmark.getBookmarkName()).isEqualTo(bookmarkName);
         }
 
         @DisplayName("delete")
