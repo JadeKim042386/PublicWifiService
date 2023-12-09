@@ -113,7 +113,7 @@
         var tr = $(this).parents("tr");
         $.ajax({
             url: "/bookmark_group/update/?groupId=" + $('#groupId').val() + "&groupName=" + $('#groupName').val(),
-            type: "POST",
+            type: "GET",
             beforeSend: function () {
                 $('html').css('cursor', 'wait');
             },
