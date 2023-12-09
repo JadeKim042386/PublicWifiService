@@ -15,8 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(
         name = "bookmark",
         indexes = {
-                @Index(columnList = "id"),
-                @Index(columnList = "bookmarkName", unique = true)
+                @Index(columnList = "id")
         }
 )
 @Entity
@@ -24,9 +23,6 @@ public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Setter
-    @Column(nullable = false)
-    private String bookmarkName;
     @Setter
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -58,13 +54,13 @@ public class Bookmark {
     public Bookmark() {
     }
 
-    private Bookmark(String bookmarkName, BookmarkGroup bookmarkGroup) {
-        this.bookmarkName = bookmarkName;
+    private Bookmark(BookmarkGroup bookmarkGroup, PublicWifi publicWifi) {
         this.bookmarkGroup = bookmarkGroup;
+        this.publicWifi = publicWifi;
     }
 
-    public static Bookmark of(String bookmarkName, BookmarkGroup bookmarkGroup) {
-        return new Bookmark(bookmarkName, bookmarkGroup);
+    public static Bookmark of(BookmarkGroup bookmarkGroup, PublicWifi publicWifi) {
+        return new Bookmark(bookmarkGroup, publicWifi);
     }
 
     @Override

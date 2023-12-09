@@ -1,6 +1,7 @@
 package org.zerobase.publicwifiservice.Fixture;
 
 import org.zerobase.publicwifiservice.domain.BookmarkGroup;
+import org.zerobase.publicwifiservice.dto.BookmarkDto;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
@@ -34,6 +35,15 @@ public class TestDto {
                 1L,
                 "group",
                 DateTimeUtils.format(LocalDateTime.now()),
+                DateTimeUtils.format(LocalDateTime.now())
+        );
+    }
+
+    public static BookmarkDto getBookmarkDto() {
+        return BookmarkDto.of(
+                1L,
+                getBookmarkGroupDto(),
+                getPublicWifiDto(),
                 DateTimeUtils.format(LocalDateTime.now())
         );
     }

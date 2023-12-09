@@ -18,9 +18,7 @@ import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.repository.BookmarkGroupRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;

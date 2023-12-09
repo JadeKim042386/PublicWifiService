@@ -20,8 +20,12 @@ public class TestEntity {
         return BookmarkGroup.of("group");
     }
 
-    public static Bookmark getBookmark(BookmarkGroup bookmarkGroup) {
-        return Bookmark.of("bookmark", bookmarkGroup);
+    public static Bookmark getBookmark(BookmarkGroup bookmarkGroup, PublicWifi publicWifi) {
+        return Bookmark.of(bookmarkGroup, publicWifi);
+    }
+
+    public static Bookmark getBookmark() {
+        return getBookmark(getBookmarkGroup(), getPublicWifi());
     }
 
     private static Location getLocation() {
