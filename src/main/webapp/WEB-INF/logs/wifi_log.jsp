@@ -101,7 +101,6 @@
             },
             success: function (result) {
                 $('html').css('cursor', 'auto');
-                console.log($(this).parents("tr"));
                 tr.remove();
                 console.log(result.resultCode);
                 successAlert("삭제를 완료했습니다.")
