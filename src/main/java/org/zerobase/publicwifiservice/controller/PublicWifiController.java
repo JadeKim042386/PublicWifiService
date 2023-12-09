@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.dto.request.UserLocationRequest;
+import org.zerobase.publicwifiservice.dto.response.BookmarkGroupResponse;
 import org.zerobase.publicwifiservice.dto.response.PublicWifiResponse;
 import org.zerobase.publicwifiservice.dto.response.Response;
+import org.zerobase.publicwifiservice.service.BookmarkGroupService;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
 
@@ -25,6 +27,7 @@ import java.util.List;
 public class PublicWifiController {
     private final PublicWifiService publicWifiService;
     private final PublicWifiLogService publicWifiLogService;
+    private final BookmarkGroupService bookmarkGroupService;
 
     @ResponseBody
     @GetMapping("/apiUpdateAll")
@@ -72,6 +75,11 @@ public class PublicWifiController {
         model.addAttribute(
                 "publicWifi",
                 PublicWifiResponse.fromDto(publicWifiService.getWifi(id, distance))
+        );
+        model.addAttribute(
+            "groups",
+                bookmarkGroupService.getBookmarkGroupAll()
+                        .stream().map(BookmarkGroupResponse::fromDto).toList()
         );
 
         return "/public_wifi/detail";
