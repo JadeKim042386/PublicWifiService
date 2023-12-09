@@ -21,7 +21,7 @@ public class BookmarkResponse {
     }
 
     public static BookmarkResponse of(Long id, String groupName, String wifiName, String createdAt) {
-        return BookmarkResponse.of(id, groupName, wifiName, createdAt);
+        return new BookmarkResponse(id, groupName, wifiName, createdAt);
     }
 
     public static BookmarkResponse fromDto(BookmarkDto dto) {

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,7 +30,7 @@
         <a href="/" class="pe-3">홈</a>
         <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
         <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
-        <a href="#" class="pe-3">북마크 조회</a>
+        <a href="/bookmark" class="pe-3">북마크 조회</a>
         <a href="/bookmark_group" class="pe-3">북마크 그룹 관리</a>
     </div>
 </header>
@@ -37,10 +39,13 @@
         <form enctype="multipart/form-data" action="#" method="post">
             <div class="row align-items-start">
                 <div class="d-flex justify-content-start flex-row align-items-start">
-                    <select class="form-select w-25 me-2">
+                    <select id="select-group" class="form-select w-25 me-2">
                         <option selected>즐겨찾기 그룹 선택</option>
+                        <c:forEach var="group" items="${groups}">
+                            <option value="${group.id}">${group.groupName}</option>
+                        </c:forEach>
                     </select>
-                    <button type="submit" class="btn btn-primary me-2">즐겨찾기 추가</button>
+                    <button type="button" class="btn btn-primary me-2" onclick="saveBookmark()">즐겨찾기 추가</button>
                 </div>
             </div>
         </form>
@@ -83,4 +88,25 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="/resources/js/requestUpdateAll.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    function saveBookmark() {
+        $.ajax({
+            url: "/bookmark/save?groupId=" + $('#select-group option:selected').val() + "&wifiId=" + window.location.pathname.split("/").pop(),
+            type: "GET",
+            beforeSend: function () {
+                $('html').css('cursor', 'wait');
+            },
+            success: function (result) {
+                $('html').css('cursor', 'auto');
+                console.log(result.resultCode);
+                successAlert("즐겨찾기를 추가했습니다.")
+            },
+            error: function (result) {
+                $('html').css('cursor', 'auto');
+                console.log(result.resultCode);
+                failAlert("즐겨찾기 추가에 실패했습니다.")
+            }
+        });
+    }
+</script>
 </html>

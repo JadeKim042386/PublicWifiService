@@ -10,12 +10,18 @@ import org.zerobase.publicwifiservice.domain.BookmarkGroup;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.repository.BookmarkGroupRepository;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookmarkGroupService {
     private final BookmarkGroupRepository bookmarkGroupRepository;
+
+    public List<BookmarkGroupDto> getBookmarkGroupAll() {
+        return bookmarkGroupRepository.findAll().stream().map(BookmarkGroupDto::fromEntity).toList();
+    }
 
     public Page<BookmarkGroupDto> getBookmarkGroups(Pageable pageable) {
         return bookmarkGroupRepository.findAll(pageable).map(BookmarkGroupDto::fromEntity);
