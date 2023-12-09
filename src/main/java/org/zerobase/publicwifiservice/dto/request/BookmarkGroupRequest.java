@@ -5,14 +5,16 @@ import lombok.Setter;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 
 @Getter
 @Setter
 public class BookmarkGroupRequest {
+    private Long groupId;
     @NotBlank
     private String groupName;
 
     public BookmarkGroupDto toDto() {
-        return BookmarkGroupDto.of(groupName);
+        return BookmarkGroupDto.of(groupId, groupName);
     }
 }
