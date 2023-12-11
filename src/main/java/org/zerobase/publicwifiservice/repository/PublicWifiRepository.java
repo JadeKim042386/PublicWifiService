@@ -27,6 +27,4 @@ public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
                                     @Param("longitude") double longitude);
 
     boolean existsByWifiName(String wifiName);
-
-    PublicWifi getReferenceByWifiName(String wifiName);
 }
