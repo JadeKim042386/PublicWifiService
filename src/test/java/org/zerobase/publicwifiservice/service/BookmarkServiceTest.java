@@ -1,5 +1,6 @@
 package org.zerobase.publicwifiservice.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,10 +14,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.domain.Bookmark;
+import org.zerobase.publicwifiservice.exception.BookmarkException;
+import org.zerobase.publicwifiservice.exception.ErrorCode;
 import org.zerobase.publicwifiservice.repository.BookmarkGroupRepository;
 import org.zerobase.publicwifiservice.repository.BookmarkRepository;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
@@ -57,6 +61,23 @@ class BookmarkServiceTest {
         then(bookmarkRepository).should().save(any(Bookmark.class));
     }
 
+    @DisplayName("[예외 발생] 즐겨찾기 저장")
+    @Test
+    void saveBookmarkWithException() {
+        //given
+        given(bookmarkGroupRepository.getReferenceById(anyLong())).willReturn(TestEntity.getBookmarkGroup());
+        given(publicWifiRepository.getReferenceById(anyLong())).willReturn(TestEntity.getPublicWifi());
+        given(bookmarkRepository.save(any(Bookmark.class)))
+                .willThrow(new BookmarkException(ErrorCode.BOOKMARK_SAVE_FAILED, new IllegalArgumentException()));
+        //when
+        assertThatThrownBy(() -> bookmarkService.saveBookmark(1L, 1L))
+                .isInstanceOf(BookmarkException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.BOOKMARK_SAVE_FAILED);
+        //then
+        then(bookmarkGroupRepository).should().getReferenceById(anyLong());
+        then(publicWifiRepository).should().getReferenceById(anyLong());
+    }
+
     @DisplayName("즐겨찾기 삭제")
     @Test
     void deleteBookmark() {
@@ -67,5 +88,18 @@ class BookmarkServiceTest {
         bookmarkService.deleteBookmark(id);
         //then
         then(bookmarkRepository).should().deleteById(id);
+    }
+
+    @DisplayName("[예외 발생]즐겨찾기 삭제")
+    @Test
+    void deleteBookmarkWithException() {
+        //given
+        Long id = 1L;
+        willThrow(new BookmarkException(ErrorCode.BOOKMARK_CANT_DELETE, new IllegalArgumentException())).given(bookmarkRepository).deleteById(id);
+        //when
+        assertThatThrownBy(() -> bookmarkService.deleteBookmark(id))
+                .isInstanceOf(BookmarkException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.BOOKMARK_CANT_DELETE);
+        //then
     }
 }
