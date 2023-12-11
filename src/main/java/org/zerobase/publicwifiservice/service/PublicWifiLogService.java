@@ -53,6 +53,10 @@ public class PublicWifiLogService {
         }
     }
 
+    /**
+     * 와이파이 검색 기록 삭제
+     * @throws PublicWifiLogException 와이파이 검색 기록 삭제 실패
+     */
     @Transactional
     public void deleteWifiLog(Long id) {
         try {

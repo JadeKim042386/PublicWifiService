@@ -41,6 +41,11 @@
             </div>
         </div>
     </form>
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger mt-4" role="alert">
+            ${errorMessage}
+        </div>
+    </c:if>
     <table class="table table-bordered mt-4" style="width: 100%">
         <thead class="text-center table-primary">
             <tr>
@@ -85,8 +90,6 @@
             $('html').css('cursor', 'auto');
         });
     }
-
-
 
     function enableInputText() {
         $('#latitude').removeAttr('disabled');

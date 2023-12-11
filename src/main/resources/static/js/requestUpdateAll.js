@@ -12,7 +12,7 @@ function requestUpdateAll() {
         },
         error: function (result) {
             $('html').css('cursor', 'auto');
-            console.log(result.resultCode);
+            console.log(result.responseText);
             failAlert("업데이트에 실패했습니다.")
         }
     });

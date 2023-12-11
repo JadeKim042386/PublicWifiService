@@ -7,6 +7,10 @@ public class BookmarkGroupException extends RuntimeException {
 
     private ErrorCode errorCode;
 
+    public BookmarkGroupException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
     public BookmarkGroupException(ErrorCode errorCode, Exception causeException) {
         this.errorCode = errorCode;
         super.initCause(causeException);
