@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.zerobase.publicwifiservice.api.utils.Mapper;
 import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
@@ -30,11 +31,12 @@ public class WifiApi {
      * @param lat 위도
      * @param lon 경도
      * @param dist 거리
+     * @throws RestClientException API 요청 실패
      */
     public List<WifiApiResponse> getWifis(double lat, double lon, double dist) {
         String response = restTemplate.postForObject(
                 url,
-                generateEntity(lat, lon, dist),
+                generateHttpEntity(lat, lon, dist),
                 String.class
         );
         JsonNode jsonNode = Mapper.stringToJsonNode(response).get("apList").get("list");
@@ -46,7 +48,8 @@ public class WifiApi {
         }
         return wifiApiResponses;
     }
-    private HttpEntity<?> generateEntity(double lat, double lon, double dist) {
+
+    private HttpEntity<?> generateHttpEntity(double lat, double lon, double dist) {
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.MULTIPART_FORM_DATA);
 

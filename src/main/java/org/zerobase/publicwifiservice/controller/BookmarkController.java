@@ -7,15 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.zerobase.publicwifiservice.dto.request.BookmarkGroupRequest;
 import org.zerobase.publicwifiservice.dto.request.BookmarkRequest;
-import org.zerobase.publicwifiservice.dto.response.BookmarkGroupResponse;
 import org.zerobase.publicwifiservice.dto.response.BookmarkResponse;
 import org.zerobase.publicwifiservice.dto.response.Response;
-import org.zerobase.publicwifiservice.service.BookmarkGroupService;
+import org.zerobase.publicwifiservice.exception.BookmarkException;
 import org.zerobase.publicwifiservice.service.BookmarkService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,8 +47,8 @@ public class BookmarkController {
         try {
             bookmarkService.saveBookmark(bookmarkRequest.getGroupId(), bookmarkRequest.getWifiId());
             return Response.success();
-        } catch (IllegalArgumentException e) {
-            log.error("즐겨찾기 저장 실패", e);
+        } catch (BookmarkException e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -62,8 +59,8 @@ public class BookmarkController {
         try {
             bookmarkService.deleteBookmark(id);
             return Response.success();
-        } catch (IllegalArgumentException e) {
-            log.error("즐겨찾기그룹 삭제 실패", e);
+        } catch (BookmarkException e) {
+            log.error(e.getMessage());
             throw e;
         }
     }

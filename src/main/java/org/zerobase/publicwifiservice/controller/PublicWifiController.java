@@ -13,6 +13,8 @@ import org.zerobase.publicwifiservice.dto.request.UserLocationRequest;
 import org.zerobase.publicwifiservice.dto.response.BookmarkGroupResponse;
 import org.zerobase.publicwifiservice.dto.response.PublicWifiResponse;
 import org.zerobase.publicwifiservice.dto.response.Response;
+import org.zerobase.publicwifiservice.exception.PublicWifiException;
+import org.zerobase.publicwifiservice.exception.PublicWifiLogException;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 import org.zerobase.publicwifiservice.service.PublicWifiService;
@@ -35,9 +37,9 @@ public class PublicWifiController {
         try {
             publicWifiService.updatePublicWifiAll();
             return Response.success();
-        } catch (RuntimeException e) {
-            log.error("업데이트 실패", e);
-            return Response.fail();
+        } catch (PublicWifiException e) {
+            log.error(e.getMessage());
+            throw e;
         }
     }
 
@@ -49,18 +51,24 @@ public class PublicWifiController {
     ) {
         if (bindingResult.hasErrors()) {
             log.warn("formBindingResult={}", bindingResult);
+            redirectAttributes.addFlashAttribute("errorMessage", bindingResult.getAllErrors());
             return "redirect:/";
         }
-        List<PublicWifiDto> nearestWifis = publicWifiService.getNearestWifis(userLocationRequest.getLatitude(), userLocationRequest.getLongitude());
-        redirectAttributes.addFlashAttribute(
-                "wifiList",
-                nearestWifis.stream().map(PublicWifiResponse::fromDto).toList()
-        );
-        publicWifiLogService.saveWifiLog(
-                userLocationRequest.getLatitude(),
-                userLocationRequest.getLongitude()
-        );
-
+        try {
+            List<PublicWifiDto> nearestWifis = publicWifiService.getNearestWifis(userLocationRequest.getLatitude(), userLocationRequest.getLongitude());
+            redirectAttributes.addFlashAttribute(
+                    "wifiList",
+                    nearestWifis.stream().map(PublicWifiResponse::fromDto).toList()
+            );
+            publicWifiLogService.saveWifiLog(
+                    userLocationRequest.getLatitude(),
+                    userLocationRequest.getLongitude()
+            );
+        } catch (PublicWifiException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (PublicWifiLogException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/";
     }
 
@@ -72,16 +80,20 @@ public class PublicWifiController {
             Model model
     ) {
         response.setContentType("text/html; charset=utf-8");
-        model.addAttribute(
-                "publicWifi",
-                PublicWifiResponse.fromDto(publicWifiService.getWifi(id, distance))
-        );
-        model.addAttribute(
-            "groups",
-                bookmarkGroupService.getBookmarkGroupAll()
-                        .stream().map(BookmarkGroupResponse::fromDto).toList()
-        );
-
-        return "/public_wifi/detail";
+        try {
+            model.addAttribute(
+                    "publicWifi",
+                    PublicWifiResponse.fromDto(publicWifiService.getWifi(id, distance))
+            );
+            model.addAttribute(
+                    "groups",
+                    bookmarkGroupService.getBookmarkGroupAll()
+                            .stream().map(BookmarkGroupResponse::fromDto).toList()
+            );
+            return "/public_wifi/detail";
+        } catch (PublicWifiException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/";
+        }
     }
 }

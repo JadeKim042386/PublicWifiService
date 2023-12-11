@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerobase.publicwifiservice.dto.response.PublicWifiLogResponse;
 import org.zerobase.publicwifiservice.dto.response.Response;
+import org.zerobase.publicwifiservice.exception.PublicWifiLogException;
 import org.zerobase.publicwifiservice.service.PaginationService;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 
@@ -57,9 +58,9 @@ public class PublicWifiLogController {
         try {
             publicWifiLogService.deleteWifiLog(id);
             return Response.success();
-        } catch (IllegalArgumentException e) {
-            log.error("Wifi Log 삭제 실패", e);
-            return Response.fail();
+        } catch (PublicWifiLogException e) {
+            log.error(e.getMessage());
+            throw e;
         }
     }
 }

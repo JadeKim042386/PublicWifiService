@@ -109,7 +109,7 @@
             },
             error: function (result) {
                 $('html').css('cursor', 'auto');
-                console.log(result.resultCode);
+                console.log(result.responseText);
                 failAlert("삭제에 실패했습니다.")
             }
         });
