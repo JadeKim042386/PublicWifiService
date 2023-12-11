@@ -1,5 +1,6 @@
 package org.zerobase.publicwifiservice.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.domain.PublicWifiLog;
+import org.zerobase.publicwifiservice.exception.ErrorCode;
+import org.zerobase.publicwifiservice.exception.PublicWifiLogException;
 import org.zerobase.publicwifiservice.repository.PublicWifiLogRepository;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
@@ -50,6 +54,20 @@ class PublicWifiLogServiceTest {
         then(publicWifiLogRepository).should().deleteById(id);
     }
 
+    @DisplayName("[예외 발생] 기록 삭제 - 1개")
+    @Test
+    void deletePublicWifiLogWithException() {
+        //given
+        Long id = 1L;
+        willThrow(new PublicWifiLogException(ErrorCode.PUBLIC_WIFI_LOG_CANT_DELETE, new IllegalArgumentException()))
+                .given(publicWifiLogRepository).deleteById(id);
+        //when
+        assertThatThrownBy(() -> publicWifiLogService.deleteWifiLog(id))
+                .isInstanceOf(PublicWifiLogException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.PUBLIC_WIFI_LOG_CANT_DELETE);
+        //then
+    }
+
     @DisplayName("기록 저장 - 1개")
     @Test
     void savePublicWifiLog() {
@@ -63,5 +81,22 @@ class PublicWifiLogServiceTest {
                 );
         //then
         then(publicWifiLogRepository).should().save(any(PublicWifiLog.class));
+    }
+
+    @DisplayName("[예외 발생] 기록 저장 - 1개")
+    @Test
+    void savePublicWifiLogWithException() {
+        //given
+        PublicWifiLog publicWifiLog = TestEntity.getPublicWifiLog();
+        given(publicWifiLogRepository.save(any(PublicWifiLog.class)))
+                .willThrow(new PublicWifiLogException(ErrorCode.PUBLIC_WIFI_LOG_SAVE_FAILED, new IllegalArgumentException()));
+        //when
+        assertThatThrownBy(() -> publicWifiLogService.saveWifiLog(
+                publicWifiLog.getLocation().getLatitude(),
+                publicWifiLog.getLocation().getLongitude()
+        ))
+                .isInstanceOf(PublicWifiLogException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.PUBLIC_WIFI_LOG_SAVE_FAILED);
+        //then
     }
 }
