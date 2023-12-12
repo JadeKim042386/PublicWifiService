@@ -7,15 +7,7 @@
     <meta charset="UTF-8">
     <title>와이파이 정보 구하기</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <style>
-        a {
-            text-decoration-line: none;
-            color: black;
-        }
-        a:hover {
-            color: blue;
-        }
-    </style>
+    <link href="/resources/css/header.css" rel="stylesheet" type="text/css">
 </head>
 <header>
     <div class="container pb-4 pt-4">
@@ -24,7 +16,7 @@
         </div>
         <a href="/" class="pe-3">홈</a>
         <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
-        <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
+        <a onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
         <a href="/bookmark" class="pe-3">즐겨찾기 조회</a>
         <a href="/bookmark_group" class="pe-3">즐겨찾기 그룹 관리</a>
     </div>
