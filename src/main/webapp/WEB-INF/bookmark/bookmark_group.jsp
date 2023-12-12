@@ -8,16 +8,7 @@
     <title>즐겨찾기 그룹</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-        a {
-            text-decoration-line: none;
-            color: black;
-        }
-        a:hover {
-            color: blue;
-            cursor: pointer;
-        }
-    </style>
+    <link href="/resources/css/header.css" rel="stylesheet" type="text/css">
 </head>
 <header>
     <div class="container pb-4 pt-4">
@@ -26,7 +17,7 @@
         </div>
         <a href="/" class="pe-3">홈</a>
         <a href="/wifi_log" class="pe-3">검색 기록 조회</a>
-        <a href="#" onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
+        <a onclick="requestUpdateAll()" class="pe-3">Open API 와이파이 정보 업데이트</a>
         <a href="/bookmark" class="pe-3">즐겨찾기 조회</a>
         <a href="/bookmark_group" class="pe-3">즐겨찾기 그룹 관리</a>
     </div>
@@ -106,6 +97,7 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="/resources/js/requestUpdateAll.js"></script>
+<script src="/resources/js/deleteTableRow.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
@@ -143,26 +135,6 @@
         });
     });
     // -- 그룹 삭제
-    $(document).on("click", ".delete", function(){
-        var tr = $(this).parents("tr");
-        $.ajax({
-            url: "/bookmark_group/delete/" + tr.find("td").eq(0).text(),
-            type: "GET",
-            beforeSend: function () {
-                $('html').css('cursor', 'wait');
-            },
-            success: function (result) {
-                $('html').css('cursor', 'auto');
-                tr.remove();
-                console.log(result.resultCode);
-                successAlert("삭제를 완료했습니다.")
-            },
-            error: function (result) {
-                $('html').css('cursor', 'auto');
-                console.log(result.resultCode);
-                failAlert("삭제에 실패했습니다.")
-            }
-        });
-    });
+    deleteTableRow("/bookmark_group/delete/");
 </script>
 </html>
