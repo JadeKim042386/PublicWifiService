@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 
 @Getter
 @Setter

@@ -26,5 +26,6 @@ public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
     List<PublicWifi> findByDistance(@Param("latitude") double latitude,
                                     @Param("longitude") double longitude);
 
-    boolean existsByWifiName(String wifiName);
+    @Query("SELECT new java.lang.String(p.wifiName) FROM PublicWifi p")
+    List<String> findAllWifiName();
 }
