@@ -3,7 +3,6 @@ package org.zerobase.publicwifiservice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.repository.cdi.Eager;
 import org.zerobase.publicwifiservice.domain.embeded.Address;
 import org.zerobase.publicwifiservice.domain.embeded.Location;
 

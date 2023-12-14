@@ -9,7 +9,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
-import org.zerobase.publicwifiservice.domain.*;
+import org.zerobase.publicwifiservice.domain.Bookmark;
+import org.zerobase.publicwifiservice.domain.BookmarkGroup;
+import org.zerobase.publicwifiservice.domain.PublicWifi;
+import org.zerobase.publicwifiservice.domain.PublicWifiLog;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,17 +75,6 @@ public class JpaRepositoryTest {
             PublicWifi savedPublicWifi = publicWifiRepository.save(publicWifi);
             //then
             assertThat(savedPublicWifi.getId()).isEqualTo(31L);
-        }
-
-        @DisplayName("이미 존재하는 WIFI Name인지 확인")
-        @Test
-        void existWifiName() {
-            //given
-            String wifiName = "pede";
-            //when
-            boolean result = publicWifiRepository.existsByWifiName(wifiName);
-            //then
-            assertThat(result).isEqualTo(true);
         }
 
         @DisplayName("update")

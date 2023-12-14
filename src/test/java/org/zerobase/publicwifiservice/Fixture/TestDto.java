@@ -1,6 +1,5 @@
 package org.zerobase.publicwifiservice.Fixture;
 
-import org.zerobase.publicwifiservice.domain.BookmarkGroup;
 import org.zerobase.publicwifiservice.dto.BookmarkDto;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
@@ -8,8 +7,6 @@ import org.zerobase.publicwifiservice.dto.response.WifiApiResponse;
 import org.zerobase.publicwifiservice.utils.DateTimeUtils;
 
 import java.time.LocalDateTime;
-
-import static org.mockito.ArgumentMatchers.any;
 
 public class TestDto {
     public static PublicWifiDto getPublicWifiDto() {

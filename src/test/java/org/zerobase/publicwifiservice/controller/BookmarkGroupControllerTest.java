@@ -10,19 +10,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
-import org.zerobase.publicwifiservice.service.PublicWifiService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @ActiveProfiles("test")
 @DisplayName("View 컨트롤러 - 즐겨찾기 그룹")
@@ -72,7 +68,7 @@ class BookmarkGroupControllerTest {
         given(bookmarkGroupService.updateBookmarkGroup(any(BookmarkGroupDto.class))).willReturn(TestDto.getBookmarkGroupDto());
         //when
         mvc.perform(
-                        post("/bookmark_group/update")
+                        get("/bookmark_group/update")
                                 .queryParam("groupId", "1")
                                 .queryParam("groupName", "group")
                 )

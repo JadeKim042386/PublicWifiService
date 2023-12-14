@@ -1,6 +1,5 @@
 package org.zerobase.publicwifiservice.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

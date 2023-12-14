@@ -15,7 +15,6 @@ import org.zerobase.publicwifiservice.repository.PublicWifiJdbcRepository;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

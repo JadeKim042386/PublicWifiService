@@ -1,6 +1,5 @@
 package org.zerobase.publicwifiservice.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +15,7 @@ import org.zerobase.publicwifiservice.domain.PublicWifi;
 import org.zerobase.publicwifiservice.dto.PublicWifiDto;
 import org.zerobase.publicwifiservice.exception.ErrorCode;
 import org.zerobase.publicwifiservice.exception.PublicWifiException;
+import org.zerobase.publicwifiservice.repository.PublicWifiJdbcRepository;
 import org.zerobase.publicwifiservice.repository.PublicWifiRepository;
 
 import java.time.LocalDateTime;
@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.*;
 
 @ActiveProfiles("test")
 @DisplayName("비지니스 로직 - 공공와이파이")
@@ -34,6 +34,7 @@ class PublicWifiServiceTest {
 
     @InjectMocks private PublicWifiService publicWifiService;
     @Mock private PublicWifiRepository publicWifiRepository;
+    @Mock private PublicWifiJdbcRepository publicWifiJdbcRepository;
     @Mock private WifiApi wifiApi;
 
     @DisplayName("API를 통한 공공와이파이 정보 전체 업데이트")
@@ -41,15 +42,15 @@ class PublicWifiServiceTest {
     void getPublicWifiAll() {
         //given
         given(wifiApi.getWifis(0, 0, 0)).willReturn(List.of(TestDto.getWifiApiResponse()));
-        given(publicWifiRepository.existsByWifiName(anyString())).willReturn(true);
         PublicWifi publicWifi = TestEntity.getPublicWifi();
-        given(publicWifiRepository.saveAll(anyList())).willReturn(List.of(publicWifi));
+        given(publicWifiRepository.findAllWifiName()).willReturn(List.of(publicWifi.getWifiName()));
+        willDoNothing().given(publicWifiJdbcRepository).saveAll(anyList());
         //when
         publicWifiService.updatePublicWifiAll();
         //then
         then(wifiApi).should().getWifis(0, 0, 0);
-        then(publicWifiRepository).should().existsByWifiName(anyString());
-        then(publicWifiRepository).should().saveAll(anyList());
+        then(publicWifiRepository).should().findAllWifiName();
+        then(publicWifiJdbcRepository).should().saveAll(anyList());
     }
 
     @DisplayName("[예외 발생] API를 통한 공공와이파이 정보 전체 업데이트")

@@ -19,7 +19,6 @@ import org.zerobase.publicwifiservice.service.PaginationService;
 import org.zerobase.publicwifiservice.service.PublicWifiLogService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Slf4j
 @Controller
