@@ -4,8 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerobase.publicwifiservice.domain.PublicWifi;
+import org.zerobase.publicwifiservice.domain.embeded.Address;
+import org.zerobase.publicwifiservice.domain.embeded.Location;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
 
@@ -27,4 +30,7 @@ public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
                                     @Param("longitude") double longitude);
 
     boolean existsByWifiName(String wifiName);
+
+    @Query("SELECT new java.lang.String(p.wifiName) FROM PublicWifi p")
+    List<String> findAllWifiName();
 }

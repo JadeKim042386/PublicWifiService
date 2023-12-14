@@ -13,7 +13,7 @@ logging.level:
 spring:
   config.activate.on-profile: local
   datasource:
-    url: ${DB_URL}
+    url: ${DB_URL}?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -23,7 +23,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_batch_fetch_size: 20
   devtools.livereload:
     enabled: true
     port: 35730
