@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.zerobase.publicwifiservice.domain.PublicWifi;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
 
@@ -29,4 +30,8 @@ public interface PublicWifiRepository extends JpaRepository<PublicWifi, Long> {
 
     @Query("SELECT new java.lang.String(p.wifiName) FROM PublicWifi p")
     List<String> findAllWifiName();
+
+    @EntityGraph(attributePaths = {"bookmark"})
+    @Override
+    Optional<PublicWifi> findById(Long aLong);
 }
