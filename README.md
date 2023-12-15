@@ -12,12 +12,17 @@
 - JPA
 - MySQL, H2
 - JSP
-- [Open API](https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do)
+- [Open API](https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do) [[guide](docs/public_wifi_open_api_doc.md)]
 
 ## Features
 
-- [X] 내 위치 정보를 입력하면 가까운 위치에 있는 와이파이 정보를 보여주는 기능
-    - [X] DB에 히스토리를 저장하고 조회할 수 있는 기능
-- [X] 와이파이 상세 정보 보기 기능
-- [X] 즐겨찾기 그룹 CRUD 기능
-- [X] 와이파이를 즐겨찾기 그룹에 추가/삭제 기능
+- 내 위치 정보를 입력하면 가까운 위치에 있는 와이파이 정보 조회
+- 가까운 와이피이 검색 기록을 저장/조회/삭제
+- 와이파이 상세 정보 조회
+- 즐겨찾기 그룹 CRUD
+- 와이파이를 즐겨찾기 그룹에 추가/삭제
+- 즐겨찾기 조회
+
+## ERD
+
+![](docs/public_wifi_db_erd.png)
