@@ -3,6 +3,9 @@ package org.zerobase.publicwifiservice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +23,7 @@ import java.util.Set;
         }
 )
 @Entity
-public class BookmarkGroup {
+public class BookmarkGroup implements Persistable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,25 +32,17 @@ public class BookmarkGroup {
     private String groupName;
     @Setter
     @Column(nullable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
     @Setter
     @Column
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "bookmarkGroup")
     private final Set<Bookmark> bookmarks = new LinkedHashSet<>();
-
-    @PrePersist
-    void registeredAt() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    void updatedAt() {
-        this.modifiedAt = LocalDateTime.now();
-    }
 
     protected BookmarkGroup() {
     }
@@ -70,5 +65,10 @@ public class BookmarkGroup {
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdAt == null;
     }
 }

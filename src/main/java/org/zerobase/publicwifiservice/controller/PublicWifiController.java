@@ -2,6 +2,8 @@ package org.zerobase.publicwifiservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +47,7 @@ public class PublicWifiController {
 
     @PostMapping("/findNearestWifi")
     public String findNearestWifi(
+            @PageableDefault(size=20) Pageable pageable,
             @ModelAttribute @Validated UserLocationRequest userLocationRequest,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
@@ -55,7 +58,7 @@ public class PublicWifiController {
             return "redirect:/";
         }
         try {
-            List<PublicWifiDto> nearestWifis = publicWifiService.getNearestWifis(userLocationRequest.getLatitude(), userLocationRequest.getLongitude());
+            List<PublicWifiDto> nearestWifis = publicWifiService.getNearestWifis(userLocationRequest.getLatitude(), userLocationRequest.getLongitude(), pageable);
             redirectAttributes.addFlashAttribute(
                     "wifiList",
                     nearestWifis.stream().map(PublicWifiResponse::fromDto).toList()

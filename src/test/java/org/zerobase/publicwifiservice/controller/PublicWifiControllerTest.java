@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -49,7 +50,7 @@ class PublicWifiControllerTest {
     @Test
     void findNearestWifi() throws Exception {
         //given
-        given(publicWifiService.getNearestWifis(anyDouble(), anyDouble())).willReturn(List.of());
+        given(publicWifiService.getNearestWifis(anyDouble(), anyDouble(), any(Pageable.class))).willReturn(List.of());
         willDoNothing().given(publicWifiLogService).saveWifiLog(anyDouble(), anyDouble());
         //when
         mvc.perform(
@@ -61,7 +62,7 @@ class PublicWifiControllerTest {
                 .andExpect(view().name("redirect:/"))
                 .andExpect(redirectedUrl("/"));
         //then
-        then(publicWifiService).should().getNearestWifis(anyDouble(), anyDouble());
+        then(publicWifiService).should().getNearestWifis(anyDouble(), anyDouble(), any(Pageable.class));
         then(publicWifiLogService).should().saveWifiLog(anyDouble(), anyDouble());
     }
 

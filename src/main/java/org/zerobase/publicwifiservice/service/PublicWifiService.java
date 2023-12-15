@@ -2,6 +2,7 @@ package org.zerobase.publicwifiservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
@@ -62,9 +63,9 @@ public class PublicWifiService {
      * @param longitude 경도
      * @throws PublicWifiException 가까운 와이파이 정보 조회 실패
      */
-    public List<PublicWifiDto> getNearestWifis(double latitude, double longitude) {
+    public List<PublicWifiDto> getNearestWifis(double latitude, double longitude, Pageable pageable) {
         try {
-            return publicWifiRepository.findByDistance(latitude, longitude)
+            return publicWifiRepository.findAllWithBookmarkUsingFetchJoin(latitude, longitude, pageable)
                     .stream().map(entity -> PublicWifiDto.fromEntity(entity, latitude, longitude))
                     .toList();
         } catch (IllegalArgumentException e) {

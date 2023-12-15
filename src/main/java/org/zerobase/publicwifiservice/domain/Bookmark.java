@@ -3,6 +3,9 @@ package org.zerobase.publicwifiservice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,15 +22,17 @@ import static javax.persistence.FetchType.LAZY;
         }
 )
 @Entity
-public class Bookmark {
+public class Bookmark implements Persistable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
     @Column(nullable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
     @Setter
     @Column
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
     @ToString.Exclude
@@ -40,16 +45,6 @@ public class Bookmark {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "publicWifiId")
     private PublicWifi publicWifi;
-
-    @PrePersist
-    void registeredAt() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    void updatedAt() {
-        this.modifiedAt = LocalDateTime.now();
-    }
 
     public Bookmark() {
     }
@@ -73,5 +68,10 @@ public class Bookmark {
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdAt == null;
     }
 }
