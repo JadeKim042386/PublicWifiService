@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClientException;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
@@ -71,11 +72,12 @@ class PublicWifiServiceTest {
         //given
         double latitude = 37.2747488;
         double longitude = 127.018885;
-        given(publicWifiRepository.findByDistance(latitude, longitude)).willReturn(List.of());
+        Pageable pageable = Pageable.ofSize(20);
+        given(publicWifiRepository.findAllWithBookmarkUsingFetchJoin(latitude, longitude, pageable)).willReturn(List.of());
         //when
-        List<PublicWifiDto> wifids = publicWifiService.getNearestWifis(latitude, longitude);
+        List<PublicWifiDto> wifids = publicWifiService.getNearestWifis(latitude, longitude, pageable);
         //then
-        then(publicWifiRepository).should().findByDistance(latitude, longitude);
+        then(publicWifiRepository).should().findAllWithBookmarkUsingFetchJoin(latitude, longitude, pageable);
     }
 
     @DisplayName("[예외 발생] 입력한 위도와 경도를 기준으로 가까운 공공와이파이 20개 조회")
@@ -84,9 +86,10 @@ class PublicWifiServiceTest {
         //given
         double latitude = 37.2747488;
         double longitude = 127.018885;
-        given(publicWifiRepository.findByDistance(latitude, longitude)).willThrow(new PublicWifiException(ErrorCode.PUBLIC_WIFI_NOT_FOUND_NEAREST, new IllegalArgumentException()));
+        Pageable pageable = Pageable.ofSize(20);
+        given(publicWifiRepository.findAllWithBookmarkUsingFetchJoin(latitude, longitude, pageable)).willThrow(new PublicWifiException(ErrorCode.PUBLIC_WIFI_NOT_FOUND_NEAREST, new IllegalArgumentException()));
         //when
-        assertThatThrownBy(() -> publicWifiService.getNearestWifis(latitude, longitude))
+        assertThatThrownBy(() -> publicWifiService.getNearestWifis(latitude, longitude, pageable))
                 .isInstanceOf(PublicWifiException.class)
                 .hasFieldOrPropertyWithValue("errorCode", ErrorCode.PUBLIC_WIFI_NOT_FOUND_NEAREST);
         //then

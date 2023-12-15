@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.zerobase.publicwifiservice.Fixture.TestEntity;
 import org.zerobase.publicwifiservice.domain.Bookmark;
@@ -49,7 +50,7 @@ public class JpaRepositoryTest {
             double latitude = 27.9671;
             double longitude = -82.4334;
             //when
-            List<PublicWifi> wifis = publicWifiRepository.findByDistance(latitude, longitude);
+            List<PublicWifi> wifis = publicWifiRepository.findAllWithBookmarkUsingFetchJoin(latitude, longitude, Pageable.ofSize(20));
             //then
             assertThat(wifis.get(0).getLocation().getLatitude()).isEqualTo(latitude);
             assertThat(wifis.size()).isEqualTo(20);
