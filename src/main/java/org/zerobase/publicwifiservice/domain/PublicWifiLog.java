@@ -3,6 +3,8 @@ package org.zerobase.publicwifiservice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Persistable;
 import org.zerobase.publicwifiservice.domain.embeded.Location;
 
 import javax.persistence.*;
@@ -18,7 +20,7 @@ import java.util.Objects;
         }
 )
 @Entity
-public class PublicWifiLog {
+public class PublicWifiLog implements Persistable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,12 +30,8 @@ public class PublicWifiLog {
     private Location location;
     @Setter
     @Column(nullable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
-
-    @PrePersist
-    void registeredAt() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     protected PublicWifiLog() {
     }
@@ -56,5 +54,10 @@ public class PublicWifiLog {
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdAt == null;
     }
 }
