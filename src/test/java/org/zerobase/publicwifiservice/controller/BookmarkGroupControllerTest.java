@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.zerobase.publicwifiservice.Fixture.TestDto;
 import org.zerobase.publicwifiservice.dto.BookmarkGroupDto;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
+import org.zerobase.publicwifiservice.service.PaginationService;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
@@ -26,12 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookmarkGroupControllerTest {
     @Autowired private MockMvc mvc;
     @MockBean private BookmarkGroupService bookmarkGroupService;
+    @MockBean private PaginationService paginationService;
 
     @DisplayName("즐겨찾기 그룹 조회")
     @Test
     void getBookmarkGroups() throws Exception {
         //given
         given(bookmarkGroupService.getBookmarkGroups(any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of());
         //when
         mvc.perform(
                 get("/bookmark_group")
@@ -42,6 +47,7 @@ class BookmarkGroupControllerTest {
                 .andExpect(model().attributeExists("groups"));
         //then
         then(bookmarkGroupService).should().getBookmarkGroups(any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
     @DisplayName("즐겨찾기 그룹 저장")

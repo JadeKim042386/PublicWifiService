@@ -46,6 +46,39 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="text-xs-center">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 -->
+                <c:choose>
+                    <c:when test="${bookmarks.number <= 0}">
+                        <li class="page-item"><a class="page-link disabled" href="/bookmark?page=${bookmarks.number - 1}">Prev</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="/bookmark?page=${bookmarks.number - 1}">Prev</a></li>
+                    </c:otherwise>
+                </c:choose>
+                <!-- 페이지 그룹 -->
+                <c:forEach var="n" items="${paginationBarNumbers}">
+                    <c:choose>
+                        <c:when test="${bookmarks.number == n}">
+                            <li class="page-item"><a class="page-link disabled" href="/bookmark?page=${n}">${n}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="/bookmark?page=${n}">${n}</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <!-- 다음 -->
+                <c:choose>
+                    <c:when test="${bookmarks.totalPages <= 1 || bookmarks.number < bookmarks.totalPages - 1}">
+                        <li class="page-item "><a class="page-link disabled" href="/bookmark/?page=${bookmarks.totalPages - 1}">Next</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item "><a class="page-link" href="/bookmark/?page=${bookmarks.totalPages - 1}">Next</a></li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

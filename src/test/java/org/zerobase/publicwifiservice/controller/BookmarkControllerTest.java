@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.zerobase.publicwifiservice.service.BookmarkService;
+import org.zerobase.publicwifiservice.service.PaginationService;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -24,12 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookmarkControllerTest {
     @Autowired private MockMvc mvc;
     @MockBean private BookmarkService bookmarkService;
+    @MockBean private PaginationService paginationService;
 
     @DisplayName("즐겨찾기 조회")
     @Test
     void getBookmarks() throws Exception {
         //given
         given(bookmarkService.getBookmarks(any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of());
         //when
         mvc.perform(
                 get("/bookmark")
@@ -39,6 +44,7 @@ class BookmarkControllerTest {
                 .andExpect(view().name("/bookmark/bookmark"));
         //then
         then(bookmarkService).should().getBookmarks(any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
     @DisplayName("즐겨찾기 저장")

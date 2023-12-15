@@ -2,6 +2,7 @@ package org.zerobase.publicwifiservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +18,7 @@ import org.zerobase.publicwifiservice.dto.response.Response;
 import org.zerobase.publicwifiservice.exception.BookmarkGroupException;
 import org.zerobase.publicwifiservice.exception.ErrorCode;
 import org.zerobase.publicwifiservice.service.BookmarkGroupService;
+import org.zerobase.publicwifiservice.service.PaginationService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class BookmarkGroupController {
     private final BookmarkGroupService bookmarkGroupService;
+    private final PaginationService paginationService;
 
     @GetMapping
     public String getBookmarkGroups(
@@ -34,9 +37,17 @@ public class BookmarkGroupController {
             Model model
     ) {
         response.setContentType("text/html; charset=utf-8");
+        Page<BookmarkGroupResponse> groups = bookmarkGroupService.getBookmarkGroups(pageable).map(BookmarkGroupResponse::fromDto);
         model.addAttribute(
                 "groups",
-                bookmarkGroupService.getBookmarkGroups(pageable).map(BookmarkGroupResponse::fromDto)
+                groups
+        );
+        model.addAttribute(
+                "paginationBarNumbers",
+                paginationService.getPaginationBarNumbers(
+                        pageable.getPageNumber(),
+                        groups.getTotalPages()
+                )
         );
 
         return "/bookmark/bookmark_group";
