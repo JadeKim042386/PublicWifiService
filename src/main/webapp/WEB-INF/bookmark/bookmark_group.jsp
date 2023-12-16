@@ -117,7 +117,7 @@
             </c:forEach>
             <!-- 다음 -->
             <c:choose>
-                <c:when test="${groups.totalPages <= 1 || groups.number < groups.totalPages - 1}">
+                <c:when test="${groups.totalPages <= 1 || groups.number >= groups.totalPages - 1}">
                     <li class="page-item "><a class="page-link disabled" href="/bookmark_group/?page=${groups.totalPages - 1}">Next</a></li>
                 </c:when>
                 <c:otherwise>

@@ -70,7 +70,7 @@
                 </c:forEach>
                 <!-- 다음 -->
                 <c:choose>
-                    <c:when test="${bookmarks.totalPages <= 1 || bookmarks.number < bookmarks.totalPages - 1}">
+                    <c:when test="${bookmarks.totalPages <= 1 || bookmarks.number >= bookmarks.totalPages - 1}">
                         <li class="page-item "><a class="page-link disabled" href="/bookmark/?page=${bookmarks.totalPages - 1}">Next</a></li>
                     </c:when>
                     <c:otherwise>
