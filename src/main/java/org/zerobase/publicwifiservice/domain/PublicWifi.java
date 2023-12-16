@@ -3,6 +3,9 @@ package org.zerobase.publicwifiservice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.zerobase.publicwifiservice.domain.embeded.Address;
 import org.zerobase.publicwifiservice.domain.embeded.Location;
 
@@ -11,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@ToString(callSuper = true)
 @Table(
         name = "public_wifi",
         indexes = {
@@ -20,6 +22,7 @@ import java.util.Objects;
         }
 )
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class PublicWifi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,17 +40,13 @@ public class PublicWifi {
     private Address address;
     @Setter
     @Column(nullable = false)
+    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @ToString.Exclude
     @OneToOne(mappedBy = "publicWifi", cascade = CascadeType.ALL)
     private Bookmark bookmark;
-
-    @PrePersist
-    @PreUpdate
-    void updatedAt() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
     protected PublicWifi() {
     }

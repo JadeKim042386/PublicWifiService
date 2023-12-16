@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.zerobase.publicwifiservice.domain.embeded.Location;
 
 import javax.persistence.*;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@ToString(callSuper = true)
 @Table(
         name = "public_wifi_log",
         indexes = {
@@ -20,6 +20,7 @@ import java.util.Objects;
         }
 )
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class PublicWifiLog implements Persistable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class PublicWifiLog implements Persistable<Long> {
     @Embedded
     private Location location;
     @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
 

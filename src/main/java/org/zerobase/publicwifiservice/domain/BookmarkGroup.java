@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,6 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString(callSuper = true)
 @Table(
         name = "bookmark_group",
         indexes = {
@@ -23,6 +23,7 @@ import java.util.Set;
         }
 )
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class BookmarkGroup implements Persistable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class BookmarkGroup implements Persistable<Long> {
     @Column(nullable = false)
     private String groupName;
     @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
     @Setter
