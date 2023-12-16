@@ -70,10 +70,10 @@
                 <!-- 다음 -->
                 <c:choose>
                     <c:when test="${logs.totalPages <= 1 || logs.number >= logs.totalPages - 1}">
-                        <li class="page-item "><a class="page-link disabled" href="/wifi_log/?page=${logs.totalPages - 1}">Next</a></li>
+                        <li class="page-item "><a class="page-link disabled" href="/wifi_log/?page=${logs.number + 1}">Next</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li class="page-item "><a class="page-link" href="/wifi_log/?page=${logs.totalPages - 1}">Next</a></li>
+                        <li class="page-item "><a class="page-link" href="/wifi_log/?page=${logs.number + 1}">Next</a></li>
                     </c:otherwise>
                 </c:choose>
             </ul>
@@ -85,6 +85,6 @@
 <script src="/resources/js/deleteTableRow.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
-    deleteTableRow("/wifi_log/delete/");
+    deleteTableRow("/wifi_log/delete/", "/wifi_log");
 </script>
 </html>

@@ -25,6 +25,13 @@ function successAlert(message) {
     })
 }
 
+function successAlertThenRedirect(message, redirect_url) {
+    Swal.fire({
+        icon: 'success',
+        text: message
+    }).then(() => location.href = redirect_url);
+}
+
 function failAlert(message) {
     Swal.fire({
         icon: 'error',

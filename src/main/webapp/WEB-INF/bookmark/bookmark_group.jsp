@@ -118,10 +118,10 @@
             <!-- 다음 -->
             <c:choose>
                 <c:when test="${groups.totalPages <= 1 || groups.number >= groups.totalPages - 1}">
-                    <li class="page-item "><a class="page-link disabled" href="/bookmark_group/?page=${groups.totalPages - 1}">Next</a></li>
+                    <li class="page-item "><a class="page-link disabled" href="/bookmark_group/?page=${groups.number + 1}">Next</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li class="page-item "><a class="page-link" href="/bookmark_group/?page=${groups.totalPages - 1}">Next</a></li>
+                    <li class="page-item "><a class="page-link" href="/bookmark_group/?page=${groups.number + 1}">Next</a></li>
                 </c:otherwise>
             </c:choose>
         </ul>
@@ -168,6 +168,6 @@
         });
     });
     // -- 그룹 삭제
-    deleteTableRow("/bookmark_group/delete/");
+    deleteTableRow("/bookmark_group/delete/", "/bookmark_group");
 </script>
 </html>
