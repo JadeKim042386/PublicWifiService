@@ -71,10 +71,10 @@
                 <!-- 다음 -->
                 <c:choose>
                     <c:when test="${bookmarks.totalPages <= 1 || bookmarks.number >= bookmarks.totalPages - 1}">
-                        <li class="page-item "><a class="page-link disabled" href="/bookmark/?page=${bookmarks.totalPages - 1}">Next</a></li>
+                        <li class="page-item "><a class="page-link disabled" href="/bookmark/?page=${bookmarks.number + 1}">Next</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li class="page-item "><a class="page-link" href="/bookmark/?page=${bookmarks.totalPages - 1}">Next</a></li>
+                        <li class="page-item "><a class="page-link" href="/bookmark/?page=${bookmarks.number + 1}">Next</a></li>
                     </c:otherwise>
                 </c:choose>
             </ul>
@@ -86,6 +86,6 @@
 <script src="/resources/js/deleteTableRow.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
-    deleteTableRow("/bookmark/delete/");
+    deleteTableRow("/bookmark/delete/", "/bookmark");
 </script>
 </html>
