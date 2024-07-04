@@ -14,7 +14,7 @@
 - JPA
 - MySQL, H2
 - JSP
-- [Open API](https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do) [[guide](docs/public_wifi_open_api_doc.md)]
+- [Open API](https://www.wififree.kr/pu/oa/L01.do) [[guide](docs/public_wifi_open_api_doc.md)]
 
 ## Features
 
